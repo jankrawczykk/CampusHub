@@ -11,3 +11,6 @@ wheels/
 
 # Logs
 logs/*log
+
+# MacOS files
+.DS_Store

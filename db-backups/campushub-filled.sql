@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict xkOe3JcnrFKTAOChvSqY9F5ql19kfVdcyCtbKfiFCH1mUorT9qB5XKrhRJVe1bt
+\restrict ebCQ5Z3N2joijXzG3lwEBcw3nPa0axMM0yMBqGqkJNi3Ef3eD9VDCVwjCDwKI9X
 
 -- Dumped from database version 18.1 (Debian 18.1-1.pgdg13+2)
 -- Dumped by pg_dump version 18.1
 
--- Started on 2025-12-27 11:24:19 UTC
+-- Started on 2026-01-08 17:54:19 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -22,7 +22,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 868 (class 1247 OID 16390)
+-- TOC entry 870 (class 1247 OID 16629)
 -- Name: degree_level_enum; Type: TYPE; Schema: public; Owner: root
 --
 
@@ -36,7 +36,7 @@ CREATE TYPE public.degree_level_enum AS ENUM (
 ALTER TYPE public.degree_level_enum OWNER TO root;
 
 --
--- TOC entry 877 (class 1247 OID 16450)
+-- TOC entry 873 (class 1247 OID 16636)
 -- Name: employee_status_enum; Type: TYPE; Schema: public; Owner: root
 --
 
@@ -50,7 +50,7 @@ CREATE TYPE public.employee_status_enum AS ENUM (
 ALTER TYPE public.employee_status_enum OWNER TO root;
 
 --
--- TOC entry 871 (class 1247 OID 16424)
+-- TOC entry 876 (class 1247 OID 16644)
 -- Name: gender_enum; Type: TYPE; Schema: public; Owner: root
 --
 
@@ -64,7 +64,7 @@ CREATE TYPE public.gender_enum AS ENUM (
 ALTER TYPE public.gender_enum OWNER TO root;
 
 --
--- TOC entry 880 (class 1247 OID 16458)
+-- TOC entry 879 (class 1247 OID 16652)
 -- Name: student_status_enum; Type: TYPE; Schema: public; Owner: root
 --
 
@@ -83,7 +83,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 235 (class 1259 OID 16603)
+-- TOC entry 219 (class 1259 OID 16661)
 -- Name: courses; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -101,7 +101,7 @@ CREATE TABLE public.courses (
 ALTER TABLE public.courses OWNER TO root;
 
 --
--- TOC entry 234 (class 1259 OID 16602)
+-- TOC entry 220 (class 1259 OID 16672)
 -- Name: courses_course_id_seq; Type: SEQUENCE; Schema: public; Owner: root
 --
 
@@ -117,8 +117,8 @@ CREATE SEQUENCE public.courses_course_id_seq
 ALTER SEQUENCE public.courses_course_id_seq OWNER TO root;
 
 --
--- TOC entry 3565 (class 0 OID 0)
--- Dependencies: 234
+-- TOC entry 3580 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: courses_course_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
 --
 
@@ -126,7 +126,7 @@ ALTER SEQUENCE public.courses_course_id_seq OWNED BY public.courses.course_id;
 
 
 --
--- TOC entry 230 (class 1259 OID 16548)
+-- TOC entry 221 (class 1259 OID 16673)
 -- Name: department_heads; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -141,7 +141,7 @@ CREATE TABLE public.department_heads (
 ALTER TABLE public.department_heads OWNER TO root;
 
 --
--- TOC entry 229 (class 1259 OID 16535)
+-- TOC entry 222 (class 1259 OID 16679)
 -- Name: departments; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -155,7 +155,7 @@ CREATE TABLE public.departments (
 ALTER TABLE public.departments OWNER TO root;
 
 --
--- TOC entry 228 (class 1259 OID 16534)
+-- TOC entry 223 (class 1259 OID 16687)
 -- Name: departments_dept_id_seq; Type: SEQUENCE; Schema: public; Owner: root
 --
 
@@ -171,8 +171,8 @@ CREATE SEQUENCE public.departments_dept_id_seq
 ALTER SEQUENCE public.departments_dept_id_seq OWNER TO root;
 
 --
--- TOC entry 3566 (class 0 OID 0)
--- Dependencies: 228
+-- TOC entry 3581 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: departments_dept_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
 --
 
@@ -180,7 +180,7 @@ ALTER SEQUENCE public.departments_dept_id_seq OWNED BY public.departments.dept_i
 
 
 --
--- TOC entry 227 (class 1259 OID 16516)
+-- TOC entry 224 (class 1259 OID 16688)
 -- Name: employee_positions; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -195,7 +195,7 @@ CREATE TABLE public.employee_positions (
 ALTER TABLE public.employee_positions OWNER TO root;
 
 --
--- TOC entry 224 (class 1259 OID 16486)
+-- TOC entry 225 (class 1259 OID 16694)
 -- Name: employees; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -210,7 +210,7 @@ CREATE TABLE public.employees (
 ALTER TABLE public.employees OWNER TO root;
 
 --
--- TOC entry 223 (class 1259 OID 16485)
+-- TOC entry 226 (class 1259 OID 16701)
 -- Name: employees_employee_id_seq; Type: SEQUENCE; Schema: public; Owner: root
 --
 
@@ -226,8 +226,8 @@ CREATE SEQUENCE public.employees_employee_id_seq
 ALTER SEQUENCE public.employees_employee_id_seq OWNER TO root;
 
 --
--- TOC entry 3567 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 3582 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: employees_employee_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
 --
 
@@ -235,7 +235,7 @@ ALTER SEQUENCE public.employees_employee_id_seq OWNED BY public.employees.employ
 
 
 --
--- TOC entry 232 (class 1259 OID 16566)
+-- TOC entry 227 (class 1259 OID 16702)
 -- Name: majors; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -250,7 +250,7 @@ CREATE TABLE public.majors (
 ALTER TABLE public.majors OWNER TO root;
 
 --
--- TOC entry 231 (class 1259 OID 16565)
+-- TOC entry 228 (class 1259 OID 16711)
 -- Name: majors_major_id_seq; Type: SEQUENCE; Schema: public; Owner: root
 --
 
@@ -266,8 +266,8 @@ CREATE SEQUENCE public.majors_major_id_seq
 ALTER SEQUENCE public.majors_major_id_seq OWNER TO root;
 
 --
--- TOC entry 3568 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 3583 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: majors_major_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
 --
 
@@ -275,7 +275,7 @@ ALTER SEQUENCE public.majors_major_id_seq OWNED BY public.majors.major_id;
 
 
 --
--- TOC entry 220 (class 1259 OID 16432)
+-- TOC entry 229 (class 1259 OID 16712)
 -- Name: persons; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -295,7 +295,7 @@ CREATE TABLE public.persons (
 ALTER TABLE public.persons OWNER TO root;
 
 --
--- TOC entry 219 (class 1259 OID 16431)
+-- TOC entry 230 (class 1259 OID 16722)
 -- Name: persons_person_id_seq; Type: SEQUENCE; Schema: public; Owner: root
 --
 
@@ -311,8 +311,8 @@ CREATE SEQUENCE public.persons_person_id_seq
 ALTER SEQUENCE public.persons_person_id_seq OWNER TO root;
 
 --
--- TOC entry 3569 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3584 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: persons_person_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
 --
 
@@ -320,7 +320,7 @@ ALTER SEQUENCE public.persons_person_id_seq OWNED BY public.persons.person_id;
 
 
 --
--- TOC entry 226 (class 1259 OID 16504)
+-- TOC entry 231 (class 1259 OID 16723)
 -- Name: positions; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -333,7 +333,7 @@ CREATE TABLE public.positions (
 ALTER TABLE public.positions OWNER TO root;
 
 --
--- TOC entry 225 (class 1259 OID 16503)
+-- TOC entry 232 (class 1259 OID 16730)
 -- Name: positions_position_id_seq; Type: SEQUENCE; Schema: public; Owner: root
 --
 
@@ -349,8 +349,8 @@ CREATE SEQUENCE public.positions_position_id_seq
 ALTER SEQUENCE public.positions_position_id_seq OWNER TO root;
 
 --
--- TOC entry 3570 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 3585 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: positions_position_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
 --
 
@@ -358,7 +358,7 @@ ALTER SEQUENCE public.positions_position_id_seq OWNED BY public.positions.positi
 
 
 --
--- TOC entry 233 (class 1259 OID 16583)
+-- TOC entry 233 (class 1259 OID 16731)
 -- Name: student_majors; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -374,7 +374,7 @@ CREATE TABLE public.student_majors (
 ALTER TABLE public.student_majors OWNER TO root;
 
 --
--- TOC entry 222 (class 1259 OID 16468)
+-- TOC entry 234 (class 1259 OID 16738)
 -- Name: students; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -389,7 +389,7 @@ CREATE TABLE public.students (
 ALTER TABLE public.students OWNER TO root;
 
 --
--- TOC entry 221 (class 1259 OID 16467)
+-- TOC entry 235 (class 1259 OID 16745)
 -- Name: students_student_id_seq; Type: SEQUENCE; Schema: public; Owner: root
 --
 
@@ -405,8 +405,8 @@ CREATE SEQUENCE public.students_student_id_seq
 ALTER SEQUENCE public.students_student_id_seq OWNER TO root;
 
 --
--- TOC entry 3571 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 3586 (class 0 OID 0)
+-- Dependencies: 235
 -- Name: students_student_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
 --
 
@@ -414,7 +414,38 @@ ALTER SEQUENCE public.students_student_id_seq OWNED BY public.students.student_i
 
 
 --
--- TOC entry 3350 (class 2604 OID 16606)
+-- TOC entry 237 (class 1259 OID 16838)
+-- Name: users; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.users (
+    user_id integer NOT NULL,
+    employee_id integer NOT NULL,
+    username text NOT NULL,
+    password_hash text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO root;
+
+--
+-- TOC entry 236 (class 1259 OID 16837)
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+ALTER TABLE public.users ALTER COLUMN user_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.users_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 3348 (class 2604 OID 16746)
 -- Name: courses course_id; Type: DEFAULT; Schema: public; Owner: root
 --
 
@@ -422,7 +453,7 @@ ALTER TABLE ONLY public.courses ALTER COLUMN course_id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3347 (class 2604 OID 16538)
+-- TOC entry 3349 (class 2604 OID 16747)
 -- Name: departments dept_id; Type: DEFAULT; Schema: public; Owner: root
 --
 
@@ -430,7 +461,7 @@ ALTER TABLE ONLY public.departments ALTER COLUMN dept_id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 3345 (class 2604 OID 16489)
+-- TOC entry 3350 (class 2604 OID 16748)
 -- Name: employees employee_id; Type: DEFAULT; Schema: public; Owner: root
 --
 
@@ -438,7 +469,7 @@ ALTER TABLE ONLY public.employees ALTER COLUMN employee_id SET DEFAULT nextval('
 
 
 --
--- TOC entry 3348 (class 2604 OID 16569)
+-- TOC entry 3351 (class 2604 OID 16749)
 -- Name: majors major_id; Type: DEFAULT; Schema: public; Owner: root
 --
 
@@ -446,7 +477,7 @@ ALTER TABLE ONLY public.majors ALTER COLUMN major_id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 3343 (class 2604 OID 16435)
+-- TOC entry 3352 (class 2604 OID 16750)
 -- Name: persons person_id; Type: DEFAULT; Schema: public; Owner: root
 --
 
@@ -454,7 +485,7 @@ ALTER TABLE ONLY public.persons ALTER COLUMN person_id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3346 (class 2604 OID 16507)
+-- TOC entry 3353 (class 2604 OID 16751)
 -- Name: positions position_id; Type: DEFAULT; Schema: public; Owner: root
 --
 
@@ -462,7 +493,7 @@ ALTER TABLE ONLY public.positions ALTER COLUMN position_id SET DEFAULT nextval('
 
 
 --
--- TOC entry 3344 (class 2604 OID 16471)
+-- TOC entry 3355 (class 2604 OID 16752)
 -- Name: students student_id; Type: DEFAULT; Schema: public; Owner: root
 --
 
@@ -470,8 +501,8 @@ ALTER TABLE ONLY public.students ALTER COLUMN student_id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 3559 (class 0 OID 16603)
--- Dependencies: 235
+-- TOC entry 3556 (class 0 OID 16661)
+-- Dependencies: 219
 -- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -488,8 +519,8 @@ INSERT INTO public.courses (course_id, dept_id, course_code, title, description,
 
 
 --
--- TOC entry 3554 (class 0 OID 16548)
--- Dependencies: 230
+-- TOC entry 3558 (class 0 OID 16673)
+-- Dependencies: 221
 -- Data for Name: department_heads; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -506,8 +537,8 @@ INSERT INTO public.department_heads (dept_id, employee_id, start_date, end_date)
 
 
 --
--- TOC entry 3553 (class 0 OID 16535)
--- Dependencies: 229
+-- TOC entry 3559 (class 0 OID 16679)
+-- Dependencies: 222
 -- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -524,8 +555,8 @@ INSERT INTO public.departments (dept_id, name, code) VALUES (10, 'Electrical Eng
 
 
 --
--- TOC entry 3551 (class 0 OID 16516)
--- Dependencies: 227
+-- TOC entry 3561 (class 0 OID 16688)
+-- Dependencies: 224
 -- Data for Name: employee_positions; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -542,8 +573,8 @@ INSERT INTO public.employee_positions (employee_id, position_id, start_date, end
 
 
 --
--- TOC entry 3548 (class 0 OID 16486)
--- Dependencies: 224
+-- TOC entry 3562 (class 0 OID 16694)
+-- Dependencies: 225
 -- Data for Name: employees; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -560,8 +591,8 @@ INSERT INTO public.employees (employee_id, person_id, employment_date, status) V
 
 
 --
--- TOC entry 3556 (class 0 OID 16566)
--- Dependencies: 232
+-- TOC entry 3564 (class 0 OID 16702)
+-- Dependencies: 227
 -- Data for Name: majors; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -578,8 +609,8 @@ INSERT INTO public.majors (major_id, dept_id, name, degree_level) VALUES (10, 9,
 
 
 --
--- TOC entry 3544 (class 0 OID 16432)
--- Dependencies: 220
+-- TOC entry 3566 (class 0 OID 16712)
+-- Dependencies: 229
 -- Data for Name: persons; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -606,8 +637,8 @@ INSERT INTO public.persons (person_id, first_name, last_name, date_of_birth, pes
 
 
 --
--- TOC entry 3550 (class 0 OID 16504)
--- Dependencies: 226
+-- TOC entry 3568 (class 0 OID 16723)
+-- Dependencies: 231
 -- Data for Name: positions; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -624,7 +655,7 @@ INSERT INTO public.positions (position_id, name) VALUES (10, 'Teaching Assistant
 
 
 --
--- TOC entry 3557 (class 0 OID 16583)
+-- TOC entry 3570 (class 0 OID 16731)
 -- Dependencies: 233
 -- Data for Name: student_majors; Type: TABLE DATA; Schema: public; Owner: root
 --
@@ -642,8 +673,8 @@ INSERT INTO public.student_majors (student_id, major_id, start_date, end_date, i
 
 
 --
--- TOC entry 3546 (class 0 OID 16468)
--- Dependencies: 222
+-- TOC entry 3571 (class 0 OID 16738)
+-- Dependencies: 234
 -- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: root
 --
 
@@ -660,8 +691,26 @@ INSERT INTO public.students (student_id, person_id, enrollment_date, status) VAL
 
 
 --
--- TOC entry 3572 (class 0 OID 0)
--- Dependencies: 234
+-- TOC entry 3574 (class 0 OID 16838)
+-- Dependencies: 237
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (1, 1, 'adam.kowalski', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (2, 2, 'anna.nowak', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (3, 3, 'piotr.zielinski', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (4, 4, 'maria.wisniewska', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (5, 5, 'tomasz.wojcik', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (6, 6, 'katarzyna.lew', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (7, 7, 'michal.kaminski', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (8, 8, 'agnieszka.dab', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (9, 9, 'pawel.kaczmarek', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+INSERT INTO public.users (user_id, employee_id, username, password_hash, created_at) OVERRIDING SYSTEM VALUE VALUES (10, 10, 'natalia.piotr', '$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$7rYw9Ck7Yw3n8Kx3Z4QpY0p9V1cKp7X6QJkGkz9V2uE', '2026-01-08 17:53:16.175263');
+
+
+--
+-- TOC entry 3587 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: courses_course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
@@ -669,8 +718,8 @@ SELECT pg_catalog.setval('public.courses_course_id_seq', 10, true);
 
 
 --
--- TOC entry 3573 (class 0 OID 0)
--- Dependencies: 228
+-- TOC entry 3588 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: departments_dept_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
@@ -678,8 +727,8 @@ SELECT pg_catalog.setval('public.departments_dept_id_seq', 10, true);
 
 
 --
--- TOC entry 3574 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 3589 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: employees_employee_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
@@ -687,8 +736,8 @@ SELECT pg_catalog.setval('public.employees_employee_id_seq', 10, true);
 
 
 --
--- TOC entry 3575 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 3590 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: majors_major_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
@@ -696,8 +745,8 @@ SELECT pg_catalog.setval('public.majors_major_id_seq', 10, true);
 
 
 --
--- TOC entry 3576 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3591 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: persons_person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
@@ -705,8 +754,8 @@ SELECT pg_catalog.setval('public.persons_person_id_seq', 20, true);
 
 
 --
--- TOC entry 3577 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 3592 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: positions_position_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
@@ -714,8 +763,8 @@ SELECT pg_catalog.setval('public.positions_position_id_seq', 10, true);
 
 
 --
--- TOC entry 3578 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 3593 (class 0 OID 0)
+-- Dependencies: 235
 -- Name: students_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
@@ -723,7 +772,16 @@ SELECT pg_catalog.setval('public.students_student_id_seq', 10, true);
 
 
 --
--- TOC entry 3382 (class 2606 OID 16618)
+-- TOC entry 3594 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.users_user_id_seq', 10, true);
+
+
+--
+-- TOC entry 3359 (class 2606 OID 16754)
 -- Name: courses courses_course_code_key; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -732,7 +790,7 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 3384 (class 2606 OID 16616)
+-- TOC entry 3361 (class 2606 OID 16756)
 -- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -741,7 +799,7 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 3373 (class 2606 OID 16547)
+-- TOC entry 3365 (class 2606 OID 16758)
 -- Name: departments departments_code_key; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -750,7 +808,7 @@ ALTER TABLE ONLY public.departments
 
 
 --
--- TOC entry 3375 (class 2606 OID 16545)
+-- TOC entry 3367 (class 2606 OID 16760)
 -- Name: departments departments_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -759,7 +817,7 @@ ALTER TABLE ONLY public.departments
 
 
 --
--- TOC entry 3371 (class 2606 OID 16523)
+-- TOC entry 3369 (class 2606 OID 16762)
 -- Name: employee_positions employee_positions_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -768,7 +826,7 @@ ALTER TABLE ONLY public.employee_positions
 
 
 --
--- TOC entry 3363 (class 2606 OID 16497)
+-- TOC entry 3371 (class 2606 OID 16764)
 -- Name: employees employees_person_id_key; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -777,7 +835,7 @@ ALTER TABLE ONLY public.employees
 
 
 --
--- TOC entry 3365 (class 2606 OID 16495)
+-- TOC entry 3373 (class 2606 OID 16766)
 -- Name: employees employees_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -786,7 +844,7 @@ ALTER TABLE ONLY public.employees
 
 
 --
--- TOC entry 3378 (class 2606 OID 16577)
+-- TOC entry 3375 (class 2606 OID 16768)
 -- Name: majors majors_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -795,7 +853,7 @@ ALTER TABLE ONLY public.majors
 
 
 --
--- TOC entry 3353 (class 2606 OID 16448)
+-- TOC entry 3377 (class 2606 OID 16770)
 -- Name: persons persons_email_key; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -804,7 +862,7 @@ ALTER TABLE ONLY public.persons
 
 
 --
--- TOC entry 3355 (class 2606 OID 16446)
+-- TOC entry 3379 (class 2606 OID 16772)
 -- Name: persons persons_pesel_key; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -813,7 +871,7 @@ ALTER TABLE ONLY public.persons
 
 
 --
--- TOC entry 3357 (class 2606 OID 16444)
+-- TOC entry 3381 (class 2606 OID 16774)
 -- Name: persons persons_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -822,7 +880,7 @@ ALTER TABLE ONLY public.persons
 
 
 --
--- TOC entry 3367 (class 2606 OID 16515)
+-- TOC entry 3383 (class 2606 OID 16776)
 -- Name: positions positions_name_key; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -831,7 +889,7 @@ ALTER TABLE ONLY public.positions
 
 
 --
--- TOC entry 3369 (class 2606 OID 16513)
+-- TOC entry 3385 (class 2606 OID 16778)
 -- Name: positions positions_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -840,7 +898,7 @@ ALTER TABLE ONLY public.positions
 
 
 --
--- TOC entry 3380 (class 2606 OID 16591)
+-- TOC entry 3387 (class 2606 OID 16780)
 -- Name: student_majors student_majors_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -849,7 +907,7 @@ ALTER TABLE ONLY public.student_majors
 
 
 --
--- TOC entry 3359 (class 2606 OID 16479)
+-- TOC entry 3389 (class 2606 OID 16782)
 -- Name: students students_person_id_key; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -858,7 +916,7 @@ ALTER TABLE ONLY public.students
 
 
 --
--- TOC entry 3361 (class 2606 OID 16477)
+-- TOC entry 3391 (class 2606 OID 16784)
 -- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -867,7 +925,34 @@ ALTER TABLE ONLY public.students
 
 
 --
--- TOC entry 3385 (class 1259 OID 16624)
+-- TOC entry 3393 (class 2606 OID 16852)
+-- Name: users users_employee_id_key; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_employee_id_key UNIQUE (employee_id);
+
+
+--
+-- TOC entry 3395 (class 2606 OID 16850)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- TOC entry 3397 (class 2606 OID 16854)
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 3362 (class 1259 OID 16785)
 -- Name: idx_courses_course_code; Type: INDEX; Schema: public; Owner: root
 --
 
@@ -875,7 +960,7 @@ CREATE INDEX idx_courses_course_code ON public.courses USING btree (course_code)
 
 
 --
--- TOC entry 3376 (class 1259 OID 16564)
+-- TOC entry 3363 (class 1259 OID 16786)
 -- Name: one_active_head_per_department; Type: INDEX; Schema: public; Owner: root
 --
 
@@ -883,7 +968,7 @@ CREATE UNIQUE INDEX one_active_head_per_department ON public.department_heads US
 
 
 --
--- TOC entry 3395 (class 2606 OID 16619)
+-- TOC entry 3398 (class 2606 OID 16787)
 -- Name: courses fk_courses_department; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -892,7 +977,7 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- TOC entry 3390 (class 2606 OID 16554)
+-- TOC entry 3399 (class 2606 OID 16792)
 -- Name: department_heads fk_dh_department; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -901,7 +986,7 @@ ALTER TABLE ONLY public.department_heads
 
 
 --
--- TOC entry 3391 (class 2606 OID 16559)
+-- TOC entry 3400 (class 2606 OID 16797)
 -- Name: department_heads fk_dh_employee; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -910,7 +995,7 @@ ALTER TABLE ONLY public.department_heads
 
 
 --
--- TOC entry 3387 (class 2606 OID 16498)
+-- TOC entry 3403 (class 2606 OID 16802)
 -- Name: employees fk_employees_person; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -919,7 +1004,7 @@ ALTER TABLE ONLY public.employees
 
 
 --
--- TOC entry 3388 (class 2606 OID 16524)
+-- TOC entry 3401 (class 2606 OID 16807)
 -- Name: employee_positions fk_ep_employee; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -928,7 +1013,7 @@ ALTER TABLE ONLY public.employee_positions
 
 
 --
--- TOC entry 3389 (class 2606 OID 16529)
+-- TOC entry 3402 (class 2606 OID 16812)
 -- Name: employee_positions fk_ep_position; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -937,7 +1022,7 @@ ALTER TABLE ONLY public.employee_positions
 
 
 --
--- TOC entry 3392 (class 2606 OID 16578)
+-- TOC entry 3404 (class 2606 OID 16817)
 -- Name: majors fk_majors_department; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -946,7 +1031,7 @@ ALTER TABLE ONLY public.majors
 
 
 --
--- TOC entry 3393 (class 2606 OID 16597)
+-- TOC entry 3405 (class 2606 OID 16822)
 -- Name: student_majors fk_sm_major; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -955,7 +1040,7 @@ ALTER TABLE ONLY public.student_majors
 
 
 --
--- TOC entry 3394 (class 2606 OID 16592)
+-- TOC entry 3406 (class 2606 OID 16827)
 -- Name: student_majors fk_sm_student; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -964,7 +1049,7 @@ ALTER TABLE ONLY public.student_majors
 
 
 --
--- TOC entry 3386 (class 2606 OID 16480)
+-- TOC entry 3407 (class 2606 OID 16832)
 -- Name: students fk_students_person; Type: FK CONSTRAINT; Schema: public; Owner: root
 --
 
@@ -972,11 +1057,20 @@ ALTER TABLE ONLY public.students
     ADD CONSTRAINT fk_students_person FOREIGN KEY (person_id) REFERENCES public.persons(person_id) ON DELETE CASCADE;
 
 
--- Completed on 2025-12-27 11:24:19 UTC
+--
+-- TOC entry 3408 (class 2606 OID 16855)
+-- Name: users fk_users_employee; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_users_employee FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id) ON DELETE CASCADE;
+
+
+-- Completed on 2026-01-08 17:54:19 UTC
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict xkOe3JcnrFKTAOChvSqY9F5ql19kfVdcyCtbKfiFCH1mUorT9qB5XKrhRJVe1bt
+\unrestrict ebCQ5Z3N2joijXzG3lwEBcw3nPa0axMM0yMBqGqkJNi3Ef3eD9VDCVwjCDwKI9X
 

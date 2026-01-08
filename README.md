@@ -40,10 +40,14 @@ CampusHub is a desktop application for managing student records, courses, and un
     - Use `db-backups/campushub-empty.sql` for schema only
     - Use `db-backups/campushub-filled.sql` for schema with dummy data
 
-4. **Install dependencies with uv**
-    ```bash
-    uv sync
-    ```
+4. **Install dependencies**
+
+- Project dependencies are declared in `pyproject.toml` (requires Python >= 3.13). Key packages include `argon2-cffi`, `psycopg[binary]`, and `pyqt6`.
+- Install dependencies using the included `uv` workflow:
+
+```bash
+uv sync
+```
 
 5. **Run the application**
     ```bash
@@ -133,6 +137,30 @@ The database consists of the following core tables and relationships:
 - `description` - Course description (nullable)
 - `credits` - Credit hours (must be > 0)
 
+#### User Management
+
+**`users`** - System user accounts
+- `user_id` (PK) - Auto-incremented identifier
+- `employee_id` (FK) - Reference to employees (unique)
+- `username` - Login username
+- `password_hash` - Argon2id hashed password
+- `created_at` - Account creation timestamp (default: current time)
+
+**Note:** Default test accounts in `campushub-filled.sql` use the word "password" hashed with Argon2id.
+
 ---
+
+#### Authentication
+
+- **Hashing:** Passwords are hashed using Argon2id via the `argon2-cffi` library (see `pyproject.toml`).
+- **Verification:** The app verifies credentials with `app.core.auth.verify_login()` and hashes new passwords with `app.core.auth.hash_password()`.
+- **Test accounts:** The seeded data in `db-backups/campushub-filled.sql` contains sample users whose raw password is the word "password" (stored as Argon2id hashes). Example usernames include: `adam.kowalski`, `anna.nowak`, `piotr.zielinski`, `maria.wisniewska`, `tomasz.wojcik`, `katarzyna.lew`, `michal.kaminski`, `agnieszka.dab`, `pawel.kaczmarek`, `natalia.piotr`.
+
+#### Environment & configuration (development)
+
+- Default database connection values are set in `app/settings.py` for local development:
+    - `DB_HOST=localhost`, `DB_PORT=5432`, `DB_NAME=campushub`, `DB_USER=root`, `DB_PASSWORD=root`.
+- The Docker Compose setup (see `docker-compose.yml`) exposes Postgres on port `5432` and PgAdmin on port `5050`. PgAdmin default login is `admin@admin.com` / `root`.
+- **Security note:** These defaults are for local development only. Store secrets in a `.env` file or a secure vault for production.
 
 *Author: Jan Krawczyk ([jankrawczykk](https://github.com/jankrawczykk))*
