@@ -163,4 +163,6 @@ The database consists of the following core tables and relationships:
 - The Docker Compose setup (see `docker-compose.yml`) exposes Postgres on port `5432` and PgAdmin on port `5050`. PgAdmin default login is `admin@admin.com` / `root`.
 - **Security note:** These defaults are for local development only. Store secrets in a `.env` file or a secure vault for production.
 
+---
+
 *Author: Jan Krawczyk ([jankrawczykk](https://github.com/jankrawczykk))*

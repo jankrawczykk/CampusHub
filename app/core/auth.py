@@ -58,8 +58,6 @@ def verify_login(username: str, password: str) -> tuple[bool, dict | None]:
             
         except (VerifyMismatchError, InvalidHashError):
             logging.warning(f"Failed login attempt for user: {username} (incorrect password)")
-            logging.debug(f"User typed hashed password: {hash_password(password)}")
-            logging.debug(f"Database password hash: {password_hash}")
             return False, None
             
     except Exception as e:
