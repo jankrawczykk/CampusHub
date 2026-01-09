@@ -59,6 +59,7 @@ uv sync
 - **`app/ui/`** - PyQt6 GUI components only
 - **`db-backups/`** - SQL backup files
 - **`logs/`** - Application logs
+- **`brand/`** - Logos and other brand assets
 
 ## Database
 
