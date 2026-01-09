@@ -40,13 +40,12 @@ CampusHub is a desktop application for managing student records, courses, and un
     - Use `db-backups/campushub-filled.sql` for schema with dummy data
 
 4. **Install dependencies**
+    - Project dependencies are declared in `pyproject.toml` (requires Python >= 3.13). Key packages include `argon2-cffi`, `psycopg[binary]`, and `pyqt6`.
+    - Install dependencies using the included `uv` workflow:
 
-- Project dependencies are declared in `pyproject.toml` (requires Python >= 3.13). Key packages include `argon2-cffi`, `psycopg[binary]`, and `pyqt6`.
-- Install dependencies using the included `uv` workflow:
-
-```bash
-uv sync
-```
+    ```bash
+    uv sync
+    ```
 
 5. **Run the application**
     ```bash
