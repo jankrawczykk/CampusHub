@@ -1,5 +1,4 @@
-
-# CampusHub
+# <img src="brand/campushub-high-resolution-logo-transparent.png" width="300" height="auto">
 
 A university student management system built with PyQt6 and PostgreSQL. **Portfolio project only - not for production use.**
 
@@ -27,7 +26,7 @@ CampusHub is a desktop application for managing student records, courses, and un
 
 1. **Clone the repository**
     ```bash
-    git clone jankrawczykk/campushub
+    gh repo clone jankrawczykk/CampusHub
     cd campushub
     ```
 
@@ -165,4 +164,4 @@ The database consists of the following core tables and relationships:
 
 ---
 
-*Author: Jan Krawczyk ([jankrawczykk](https://github.com/jankrawczykk))*
+*Jan Krawczyk ([jankrawczykk](https://github.com/jankrawczykk))*

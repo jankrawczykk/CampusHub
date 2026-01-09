@@ -1,6 +1,7 @@
 import logging
 from PyQt6 import uic
-from PyQt6.QtWidgets import QMainWindow, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QMessageBox, QWidget, QVBoxLayout, QLabel
+from PyQt6.QtCore import Qt
 from app.settings import APP_TITLE
 
 class DashboardWindow(QMainWindow):
@@ -13,54 +14,47 @@ class DashboardWindow(QMainWindow):
         
         self.setWindowTitle(f"{APP_TITLE} - Dashboard")
         
-        welcome_text = f"Welcome, {user_data['first_name']} {user_data['last_name']}!"
-        self.header.setText(f'<html><head/><body><p align="center"><span style="font-size:36pt;">{welcome_text}</span></p></body></html>')
+        self._setup_header()
         
         self._setup_tabs()
         
-        self._setup_menu()
+        self.logoutButton.clicked.connect(self._handle_logout)
         
         logging.info(f"Dashboard opened for user: {user_data['username']}")
+    
+    def _setup_header(self):
+        welcome_text = f"Welcome, {self.user_data['first_name']}!"
+        self.headerLabel.setText(
+            f'<html><head/><body><p><span style="font-size:24pt; font-weight:600;">{welcome_text}</span></p></body></html>'
+        )
+        
+        user_info = f"{self.user_data['first_name']} {self.user_data['last_name']} ({self.user_data['email']})"
+        self.userInfoLabel.setText(
+            f'<html><head/><body><p><span style="font-size:11pt; color:#666666;">{user_info}</span></p></body></html>'
+        )
     
     def _setup_tabs(self):
         self.mainTabMenu.clear()
         
-        self.mainTabMenu.addTab(self._create_placeholder_widget("Students"), "Students")
-        self.mainTabMenu.addTab(self._create_placeholder_widget("Departments"), "Departments")
-        self.mainTabMenu.addTab(self._create_placeholder_widget("Employees"), "Employees")
-        self.mainTabMenu.addTab(self._create_placeholder_widget("Courses"), "Courses")
+        self.mainTabMenu.addTab(self._create_placeholder("Students"), "Students")
+        self.mainTabMenu.addTab(self._create_placeholder("Departments"), "Departments")
+        self.mainTabMenu.addTab(self._create_placeholder("Employees"), "Employees")
+        self.mainTabMenu.addTab(self._create_placeholder("Courses"), "Courses")
         
         logging.debug("Dashboard tabs initialized")
     
-    def _create_placeholder_widget(self, name: str):
-        from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel
-        from PyQt6.QtCore import Qt
-        
+    def _create_placeholder(self, name: str) -> QWidget:
         widget = QWidget()
         layout = QVBoxLayout()
-        label = QLabel(f"{name} management coming soon...")
+        
+        label = QLabel(f"{name} management will be implemented soon...")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        label.setStyleSheet("font-size: 14pt; color: #999;")
+        
         layout.addWidget(label)
         widget.setLayout(layout)
         
         return widget
-    
-    def _setup_menu(self):
-        from PyQt6.QtGui import QAction
-        
-        menubar = self.menuBar()
-        
-        file_menu = menubar.addMenu("&File")
-        
-        logout_action = QAction("&Logout", self)
-        logout_action.setShortcut("Ctrl+L")
-        logout_action.triggered.connect(self._handle_logout)
-        file_menu.addAction(logout_action)
-        
-        exit_action = QAction("E&xit", self)
-        exit_action.setShortcut("Ctrl+Q")
-        exit_action.triggered.connect(self.close)
-        file_menu.addAction(exit_action)
     
     def _handle_logout(self):
         reply = QMessageBox.question(
