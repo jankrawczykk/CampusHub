@@ -45,12 +45,12 @@
 **Goal:** Dashboard with tabs + working models
 
 ### Tasks
-- [ ] Design dashboard UI in Qt Designer (tabs for each entity)
-- [ ] Create `app/core/base_model.py` (reusable CRUD base class)
-- [ ] Create `app/models/student.py` (Student model)
-- [ ] Create `app/models/department.py` (Department model)
-- [ ] Test models with simple queries in Python console
-- [ ] Update dashboard_window.py to load tabs
+- [x] Design dashboard UI in Qt Designer (tabs for each entity)
+- [x] Create `app/core/base_model.py` (reusable CRUD base class)
+- [x] Create `app/models/student.py` (Student model)
+- [x] Create `app/models/department.py` (Department model)
+- [x] Test models with simple queries in Python console
+- [x] Update dashboard_window.py to load tabs
 
 **Deliverable:** ✓ Dashboard with tabs + working models
 
@@ -145,25 +145,29 @@
 
 ```
 app/
+├── __init__.py
+├── settings.py              # Application settings
 ├── core/
 │   ├── auth.py              # Password verification
 │   ├── base_model.py        # Reusable CRUD base class
-│   ├── database_connection.py (existing)
-│   └── window_utils.py      (existing)
+│   ├── database_connection.py # Database connection
+│   ├── logging_config.py    # Logging configuration
+│   └── window_utils.py      # Window utilities
 ├── models/
 │   ├── student.py           # Student database operations
-│   ├── department.py        # Department database operations
-│   └── employee.py          # (if time permits)
+│   └── department.py        # Department database operations
 ├── ui/
-│   ├── dialogs/
+│   ├── dashboard_window.py  # Dashboard window
+│   ├── login_window.py      # Login window
+│   ├── dialogs/             # (Planned for Day 4+)
 │   │   ├── student_dialog.py
 │   │   └── department_dialog.py
-│   ├── tabs/
+│   ├── tabs/                # (Planned for Day 3+)
 │   │   ├── students_tab.py
 │   │   └── departments_tab.py
-│   ├── login_window.py
-│   └── dashboard_window.py
-└── ui/layout/               # .ui files from Qt Designer
+│   └── layout/              # Qt Designer .ui files
+│       ├── dashboard.ui
+│       └── login.ui
 ```
 
 ---
@@ -207,7 +211,13 @@ app/
 Files `login_window.py`, `dashboard_window.py` when possible should be optimised to use .ui files and not manually adding pyqt widgets. Remember to add a 'logout' button in day 2!
 
 ### Day 2 Notes:
+Full working models for students and departments and a base CRUD model. Added a functional logout button to the `dashboard.ui` layout. Created logos and placed them in `brand/`:
+- `brand/campushub-high-resolution-logo-grayscale-transparent` - Black PNG horizontal logo (icon+text)
+- `brand/campushub-high-resolution-logo-transparent` - White PNG horizontal logo (icon+text)
+- `brand/campushub-icon-grayscale-transparent` - Black PNG icon
+- `brand/campushub-icon-transparent` - White PNG icon
 
+Remember to implement the logos in day 3 in places like the login screen (instead of the "CampusHub" text) and the dashboard (icon on the left-hand side of the welcome message).
 
 ### Day 3 Notes:
 
