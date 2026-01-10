@@ -46,26 +46,37 @@ class StudentsTab(QWidget):
         self.studentsTable.setColumnHidden(0, True)
     
     def load_students(self, students_data=None):
+        from app.core.loading_utils import show_loading_cursor
+        
         self.statusLabel.setText("Loading students...")
-
-        if students_data is None or students_data is False:
-            students_data = Student.get_all_with_details()
-
+        
+        was_sorting = self.studentsTable.isSortingEnabled()
+        sort_col = self.studentsTable.horizontalHeader().sortIndicatorSection()
+        sort_order = self.studentsTable.horizontalHeader().sortIndicatorOrder()
+        self.studentsTable.setSortingEnabled(False)
+        
+        with show_loading_cursor():
+            if students_data is None or students_data is False:
+                students_data = Student.get_all_with_details()
+        
         if not isinstance(students_data, list):
             self.studentsTable.setRowCount(0)
             self.statusLabel.setText("Error loading students - check database connection")
             logging.error("Failed to load students - invalid data returned")
-            logging.debug(f"Students data: {students_data}")
             return
-
+        
         self.studentsTable.setRowCount(0)
-
+        
         for student in students_data:
             self._add_student_to_table(student)
-
+        
+        self.studentsTable.setSortingEnabled(was_sorting)
+        if was_sorting:
+            self.studentsTable.sortItems(sort_col, sort_order)
+        
         count = len(students_data)
         self.statusLabel.setText(f"Showing {count} student{'s' if count != 1 else ''}")
-
+        
         logging.debug(f"Loaded {count} students into table")
     
     def _add_student_to_table(self, student: dict):
@@ -103,6 +114,8 @@ class StudentsTab(QWidget):
         self.studentsTable.setItem(row, 7, QTableWidgetItem(enrollment_date))
     
     def _handle_search(self):
+        from app.core.loading_utils import show_loading_cursor
+        
         search_term = self.searchInput.text().strip()
         
         if not search_term:
@@ -111,7 +124,8 @@ class StudentsTab(QWidget):
         
         self.statusLabel.setText(f"Searching for '{search_term}'...")
         
-        results = Student.search_students(search_term)
+        with show_loading_cursor():
+            results = Student.search_students(search_term)
         
         self.load_students(results)
         
@@ -158,6 +172,8 @@ class StudentsTab(QWidget):
             logging.info(f"Student {student_id} edited, table refreshed")
     
     def _handle_delete(self):
+        from app.core.loading_utils import show_loading_cursor
+        
         student_id = self._get_selected_student_id()
         
         if not student_id:
@@ -181,7 +197,8 @@ class StudentsTab(QWidget):
         )
         
         if reply == QMessageBox.StandardButton.Yes:
-            success = Student.delete(student_id)
+            with show_loading_cursor():
+                success = Student.delete(student_id)
             
             if success:
                 logging.info(f"Deleted student {student_id} ({first_name} {last_name})")

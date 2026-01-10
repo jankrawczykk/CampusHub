@@ -36,11 +36,12 @@ class LoginWindow(QMainWindow):
             self.logoLabel.setText(f'<html><head/><body><p align="center"><span style="font-size:36pt;">{LOGO_FALLBACK_TEXT}</span></p></body></html>')
     
     def _handle_login(self):
+        from app.core.loading_utils import show_loading_cursor
+        
         username = self.usernameInput.text().strip()
         password = self.passwordInput.text()
         
         self.errorLabel.setText("")
-        self.errorLabel.setStyleSheet("")
         
         if not username or not password:
             self._show_error("Please enter both username and password")
@@ -49,7 +50,8 @@ class LoginWindow(QMainWindow):
         self.loginButton.setEnabled(False)
         self.loginButton.setText("Logging in...")
         
-        success, user_data = verify_login(username, password)
+        with show_loading_cursor():
+            success, user_data = verify_login(username, password)
         
         if success:
             logging.info(f"Login successful for: {username}")

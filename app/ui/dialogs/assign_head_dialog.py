@@ -66,6 +66,8 @@ class AssignHeadDialog(QDialog):
         return True, ""
     
     def _handle_assign(self):
+        from app.core.loading_utils import show_loading_cursor
+
         self.errorLabel.setText("")
         
         is_valid, error_msg = self._validate_form()
@@ -78,20 +80,23 @@ class AssignHeadDialog(QDialog):
         
         success = Department.assign_head(self.dept_id, employee_id, start_date)
         
-        if success:
-            employee_name = self.employeeInput.currentText().split(' (')[0]
-            logging.info(f"Assigned {employee_name} as head of {self.dept_name}")
-            QMessageBox.information(
-                self,
-                "Success",
-                f"{employee_name} has been assigned as head of {self.dept_name}!"
-            )
-            self.accept()
-        else:
-            self.errorLabel.setText("Failed to assign department head")
-            logging.error(f"Failed to assign head for department {self.dept_id}")
+        with show_loading_cursor():
+            if success:
+                employee_name = self.employeeInput.currentText().split(' (')[0]
+                logging.info(f"Assigned {employee_name} as head of {self.dept_name}")
+                QMessageBox.information(
+                    self,
+                    "Success",
+                    f"{employee_name} has been assigned as head of {self.dept_name}!"
+                )
+                self.accept()
+            else:
+                self.errorLabel.setText("Failed to assign department head")
+                logging.error(f"Failed to assign head for department {self.dept_id}")
     
     def _handle_remove(self):
+        from app.core.loading_utils import show_loading_cursor
+
         current_head = Department.get_current_head(self.dept_id)
         
         if not current_head:
@@ -108,13 +113,14 @@ class AssignHeadDialog(QDialog):
         if reply == QMessageBox.StandardButton.Yes:
             success = Department.remove_head(self.dept_id, date.today())
             
-            if success:
-                logging.info(f"Removed head from {self.dept_name}")
-                QMessageBox.information(
-                    self,
-                    "Success",
-                    f"Department head removed from {self.dept_name}!"
-                )
-                self.accept()
-            else:
-                QMessageBox.critical(self, "Error", "Failed to remove department head")
+            with show_loading_cursor():
+                if success:
+                    logging.info(f"Removed head from {self.dept_name}")
+                    QMessageBox.information(
+                        self,
+                        "Success",
+                        f"Department head removed from {self.dept_name}!"
+                    )
+                    self.accept()
+                else:
+                    QMessageBox.critical(self, "Error", "Failed to remove department head")

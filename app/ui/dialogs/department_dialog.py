@@ -1,6 +1,8 @@
 import logging
 from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QMessageBox
+from app.core.loading_utils import show_loading_cursor
+from app.core.loading_utils import show_loading_cursor
 from app.settings import UI_DEPARTMENT_DIALOG
 from app.models.department import Department
 
@@ -59,6 +61,8 @@ class DepartmentDialog(QDialog):
         }
     
     def _handle_save(self):
+        from app.core.loading_utils import show_loading_cursor
+
         self.errorLabel.setText("")
         
         is_valid, error_message = self._validate_form()
@@ -69,23 +73,24 @@ class DepartmentDialog(QDialog):
         
         department_data = self._get_form_data()
         
-        if self.dept_id:
-            success = Department.update(self.dept_id, department_data)
-            
-            if success:
-                logging.info(f"Updated department {self.dept_id}")
-                QMessageBox.information(self, "Success", "Department updated successfully!")
-                self.accept()
+        with show_loading_cursor():
+            if self.dept_id:
+                success = Department.update(self.dept_id, department_data)
+
+                if success:
+                    logging.info(f"Updated department {self.dept_id}")
+                    QMessageBox.information(self, "Success", "Department updated successfully!")
+                    self.accept()
+                else:
+                    self.errorLabel.setText("Failed to update department. Please check the logs.")
+                    logging.error(f"Failed to update department {self.dept_id}")
             else:
-                self.errorLabel.setText("Failed to update department. Please check the logs.")
-                logging.error(f"Failed to update department {self.dept_id}")
-        else:
-            dept_id = Department.create(department_data)
-            
-            if dept_id:
-                logging.info(f"Created new department {dept_id}")
-                QMessageBox.information(self, "Success", "Department created successfully!")
-                self.accept()
-            else:
-                self.errorLabel.setText("Failed to create department. Please check the logs.")
-                logging.error("Failed to create new department")
+                dept_id = Department.create(department_data)
+
+                if dept_id:
+                    logging.info(f"Created new department {dept_id}")
+                    QMessageBox.information(self, "Success", "Department created successfully!")
+                    self.accept()
+                else:
+                    self.errorLabel.setText("Failed to create department. Please check the logs.")
+                    logging.error("Failed to create new department")

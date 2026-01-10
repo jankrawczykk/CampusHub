@@ -5,6 +5,7 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from app.settings import APP_TITLE, UI_DASHBOARD
 from app.core.theme_utils import get_logo_path
+from app.ui.tabs.employees_tab import EmployeesTab
 
 class DashboardWindow(QMainWindow):
     def __init__(self, user_data: dict):
@@ -51,6 +52,7 @@ class DashboardWindow(QMainWindow):
     def _setup_tabs(self):
         from app.ui.tabs.students_tab import StudentsTab
         from app.ui.tabs.departments_tab import DepartmentsTab
+        from app.ui.tabs.employees_tab import EmployeesTab
         
         self.mainTabMenu.clear()
         
@@ -60,7 +62,9 @@ class DashboardWindow(QMainWindow):
         departments_tab = DepartmentsTab()
         self.mainTabMenu.addTab(departments_tab, "Departments")
 
-        self.mainTabMenu.addTab(self._create_placeholder("Employees"), "Employees")
+        employees_tab = EmployeesTab()
+        self.mainTabMenu.addTab(employees_tab, "Employees")
+
         self.mainTabMenu.addTab(self._create_placeholder("Courses"), "Courses")
         
         logging.debug("Dashboard tabs initialized")

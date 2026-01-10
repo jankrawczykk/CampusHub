@@ -31,6 +31,7 @@ class DepartmentsTab(QWidget):
         self.departmentsTable.itemSelectionChanged.connect(self._handle_selection_change)
         self.departmentsTable.doubleClicked.connect(self._handle_edit)
         self.assignHeadButton.clicked.connect(self._handle_assign_head)
+        self.manageMajorsButton.clicked.connect(self._handle_manage_majors)
     
     def _setup_table(self):
         header = self.departmentsTable.horizontalHeader()
@@ -43,10 +44,18 @@ class DepartmentsTab(QWidget):
         self.departmentsTable.setColumnHidden(0, True)
     
     def load_departments(self, departments_data=None):
+        from app.core.loading_utils import show_loading_cursor
+        
         self.statusLabel.setText("Loading departments...")
         
-        if departments_data is None or departments_data is False:
-            departments_data = Department.get_all_with_details()
+        was_sorting = self.departmentsTable.isSortingEnabled()
+        sort_col = self.departmentsTable.horizontalHeader().sortIndicatorSection()
+        sort_order = self.departmentsTable.horizontalHeader().sortIndicatorOrder()
+        self.departmentsTable.setSortingEnabled(False)
+        
+        with show_loading_cursor():
+            if departments_data is None or departments_data is False:
+                departments_data = Department.get_all_with_details()
         
         if not isinstance(departments_data, list):
             self.departmentsTable.setRowCount(0)
@@ -58,6 +67,10 @@ class DepartmentsTab(QWidget):
         
         for department in departments_data:
             self._add_department_to_table(department)
+        
+        self.departmentsTable.setSortingEnabled(was_sorting)
+        if was_sorting:
+            self.departmentsTable.sortItems(sort_col, sort_order)
         
         count = len(departments_data)
         self.statusLabel.setText(f"Showing {count} department{'s' if count != 1 else ''}")
@@ -81,7 +94,8 @@ class DepartmentsTab(QWidget):
         self.departmentsTable.setItem(row, 4, QTableWidgetItem(head_since))
     
     def _handle_search(self):
-        """Handle search button click or Enter key"""
+        from app.core.loading_utils import show_loading_cursor
+        
         search_term = self.searchInput.text().strip()
         
         if not search_term:
@@ -90,7 +104,8 @@ class DepartmentsTab(QWidget):
         
         self.statusLabel.setText(f"Searching for '{search_term}'...")
         
-        results = Department.search_departments(search_term)
+        with show_loading_cursor():
+            results = Department.search_departments(search_term)
         
         self.load_departments(results)
         
@@ -102,6 +117,7 @@ class DepartmentsTab(QWidget):
         self.editButton.setEnabled(has_selection)
         self.deleteButton.setEnabled(has_selection)
         self.assignHeadButton.setEnabled(has_selection)
+        self.manageMajorsButton.setEnabled(has_selection)  
     
     def _get_selected_department_id(self):
         selected_rows = self.departmentsTable.selectionModel().selectedRows()
@@ -138,6 +154,8 @@ class DepartmentsTab(QWidget):
             logging.info(f"Department {dept_id} edited, table refreshed")
     
     def _handle_delete(self):
+        from app.core.loading_utils import show_loading_cursor
+        
         dept_id = self._get_selected_department_id()
         
         if not dept_id:
@@ -161,12 +179,12 @@ class DepartmentsTab(QWidget):
         )
         
         if reply == QMessageBox.StandardButton.Yes:
-            success = Department.delete(dept_id)
+            with show_loading_cursor():
+                success = Department.delete(dept_id)
             
             if success:
                 logging.info(f"Deleted department {dept_id} ({dept_name})")
                 QMessageBox.information(self, "Success", f"Department {dept_name} deleted successfully!")
-                
                 self.load_departments()
             else:
                 logging.error(f"Failed to delete department {dept_id}")
@@ -188,3 +206,17 @@ class DepartmentsTab(QWidget):
         if dialog.exec() == QDialog.DialogCode.Accepted:
             self.load_departments()
             logging.info(f"Department head updated, table refreshed")
+
+    def _handle_manage_majors(self):
+        from app.ui.dialogs.manage_majors_dialog import ManageMajorsDialog
+
+        dept_id = self._get_selected_department_id()
+
+        if not dept_id:
+            return
+
+        row = self.departmentsTable.currentRow()
+        dept_name = self.departmentsTable.item(row, 1).text()
+
+        dialog = ManageMajorsDialog(dept_id=dept_id, dept_name=dept_name, parent=self)
+        dialog.exec()

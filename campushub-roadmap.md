@@ -111,15 +111,15 @@
 **Goal:** Polished, bug-free core features
 
 ### Tasks
-- [ ] Add loading indicators for database operations
+- [x] Add loading indicators for database operations
 - [ ] Improve error messages (user-friendly)
-- [ ] Assigning and unassigng heads of departments
-- [ ] Fix any bugs found during testing
-- [ ] Add input validation feedback (red borders, tooltips)
-- [ ] Start employees management (copy student pattern)
-- [ ] Implement employees tab
+- [x] Assigning and unassigng heads of departments
+- [x] Fix any bugs found during testing
+- [x] Add input validation feedback (red borders, tooltips)
+- [x] Start employees management (copy student pattern)
+- [x] Implement employees tab
 - [ ] Managing 'users' with the employees tab -> Start of work for CRUD for users, we will finish in Day 7
-- [ ] Major CRUD (could be in the 'Departments' tab -> editing, adding, deleting majors and assigning them to departments. We can do it by showing the assigned majors for each department and control it that way). It was mentioned in the 'Bonus Features' - we have time for it so we will be doing that
+- [x] Major CRUD (could be in the 'Departments' tab -> editing, adding, deleting majors and assigning them to departments. We can do it by showing the assigned majors for each department and control it that way). It was mentioned in the 'Bonus Features' - we have time for it so we will be doing that
 
 **Deliverable:** ✓ Polished, bug-free core features
 
@@ -153,28 +153,38 @@ app/
 │   ├── base_model.py        # Reusable CRUD base class
 │   ├── database_connection.py # Database connection
 │   ├── logging_config.py    # Logging configuration
+│   ├── loading_utils.py     # Loading indicator helpers
 │   ├── theme_utils.py       # UI theming utilities
 │   └── window_utils.py      # Window utilities
 ├── models/
 │   ├── student.py           # ✓ Student database operations
 │   ├── department.py        # ✓ Department database operations
-│   └── major.py             # ✓ Major database operations
+│   ├── major.py             # ✓ Major database operations
+│   └── employee.py          # ✓ Employee database operations
 ├── ui/
 │   ├── dashboard_window.py  # Dashboard window
 │   ├── login_window.py      # Login window
 │   ├── tabs/                # ✓ Tab widgets
 │   │   ├── students_tab.py  # ✓ Students table view with search
-│   │   └── departments_tab.py # ✓ Departments table view
+│   │   ├── departments_tab.py # ✓ Departments table view
+│   │   └── employees_tab.py  # ✓ Employees table view
 │   ├── dialogs/             # ✓ Dialog windows
 │   │   ├── student_dialog.py # ✓ Add/edit student dialog
-│   │   └── department_dialog.py # ✓ Add/edit department dialog
+│   │   ├── department_dialog.py # ✓ Add/edit department dialog
+│   │   ├── assign_head_dialog.py # ✓ Assign department head dialog
+│   │   ├── major_dialog.py   # ✓ Add/edit major dialog
+│   │   └── manage_majors_dialog.py # ✓ Manage majors dialog
 │   └── layout/              # Qt Designer .ui files
 │       ├── dashboard.ui
 │       ├── login.ui
 │       ├── students_tab.ui
 │       ├── departments_tab.ui
+│       ├── employees_tab.ui
 │       ├── student_dialog.ui
-│       └── department_dialog.ui
+│       ├── department_dialog.ui
+│       ├── assign_head_dialog.ui
+│       ├── major_dialog.ui
+│       └── manage_majors_dialog.ui
 ```
 
 ---
@@ -205,7 +215,7 @@ app/
 
 ## 🌟 Bonus Features (If Ahead of Schedule)
 
-- [ ] Majors managment (adding/removing/editing majors)
+- [x] Majors managment (adding/removing/editing majors)
 - [ ] Advanced user managment for employees
 - [ ] Roles for employees and different access zones/permissions for each role
 - [ ] Export to CSV
@@ -238,7 +248,11 @@ Day 4 was great! We now have full students controls (adding, editing, searching)
 Added status color coding, implemented student delete and full departments tab. I have modified this roadmap a bit today with new tasks and I am leaning towards a more advanced system than previosly planned because of extra time on my hands. I have migrated some variables to a global `settings.py` for easier changes if needed.
 
 ### Day 6 Notes:
-
+I encountered a bug regarding table sorting that would cause the table to loose sometimes even half of the data when refreshing after sorting the table. I've fixed the bug by adding a lock that would make it impossible to sort while populating the table.
+- Added employee management scaffolding: `app/models/employee.py`, `app/ui/tabs/employees_tab.py`, and `app/ui/layout/employees_tab.ui`.
+- Implemented dialogs for management flows: `assign_head_dialog.py`, `major_dialog.py`, `manage_majors_dialog.py` and corresponding `.ui` files.
+- Added `app/core/loading_utils.py` to centralize loading indicators used across long-running DB operations.
+- Expanded `ui/dialogs/` with department/major management dialogs and moved several hardcoded UI paths into `app/settings.py`.
 
 ### Day 7 Notes:
 

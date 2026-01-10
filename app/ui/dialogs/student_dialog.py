@@ -158,6 +158,8 @@ class StudentDialog(QDialog):
         return person_data, student_data, major_id
     
     def _handle_save(self):
+        from app.core.loading_utils import show_loading_cursor
+        
         self.errorLabel.setText("")
         
         is_valid, error_message = self._validate_form()
@@ -168,32 +170,33 @@ class StudentDialog(QDialog):
         
         person_data, student_data, major_id = self._get_form_data()
         
-        if self.student_id:
-            success = Student.update_with_person(
-                self.student_id,
-                person_data,
-                student_data,
-                major_id
-            )
-            
-            if success:
-                logging.info(f"Updated student {self.student_id}")
-                QMessageBox.information(self, "Success", "Student updated successfully!")
-                self.accept()
+        with show_loading_cursor():
+            if self.student_id:
+                success = Student.update_with_person(
+                    self.student_id,
+                    person_data,
+                    student_data,
+                    major_id
+                )
+                
+                if success:
+                    logging.info(f"Updated student {self.student_id}")
+                    QMessageBox.information(self, "Success", "Student updated successfully!")
+                    self.accept()
+                else:
+                    self.errorLabel.setText("Failed to update student. Please check the logs.")
+                    logging.error(f"Failed to update student {self.student_id}")
             else:
-                self.errorLabel.setText("Failed to update student. Please check the logs.")
-                logging.error(f"Failed to update student {self.student_id}")
-        else:
-            student_id = Student.create_with_person(
-                person_data,
-                student_data,
-                major_id
-            )
-            
-            if student_id:
-                logging.info(f"Created new student {student_id}")
-                QMessageBox.information(self, "Success", "Student created successfully!")
-                self.accept()
-            else:
-                self.errorLabel.setText("Failed to create student. Please check the logs.")
-                logging.error("Failed to create new student")
+                student_id = Student.create_with_person(
+                    person_data,
+                    student_data,
+                    major_id
+                )
+                
+                if student_id:
+                    logging.info(f"Created new student {student_id}")
+                    QMessageBox.information(self, "Success", "Student created successfully!")
+                    self.accept()
+                else:
+                    self.errorLabel.setText("Failed to create student. Please check the logs.")
+                    logging.error("Failed to create new student")
