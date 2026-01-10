@@ -124,3 +124,104 @@ class Department(BaseModel):
             
         finally:
             close_database_connection(conn)
+        
+    @classmethod
+    def get_current_head(cls, dept_id: int) -> Optional[Dict[str, Any]]:
+        conn = get_database_connection()
+        if not conn:
+            return None
+        
+        try:
+            cursor = conn.cursor()
+            
+            query = """
+                SELECT 
+                    dh.employee_id,
+                    p.first_name || ' ' || p.last_name AS full_name,
+                    dh.start_date,
+                    pos.name AS position_name
+                FROM department_heads dh
+                JOIN employees e ON dh.employee_id = e.employee_id
+                JOIN persons p ON e.person_id = p.person_id
+                LEFT JOIN employee_positions ep ON e.employee_id = ep.employee_id AND ep.end_date IS NULL
+                LEFT JOIN positions pos ON ep.position_id = pos.position_id
+                WHERE dh.dept_id = %s AND dh.end_date IS NULL
+            """
+            
+            cursor.execute(query, (dept_id,))
+            result = cursor.fetchone()
+            
+            if result:
+                columns = [desc[0] for desc in cursor.description]
+                return dict(zip(columns, result))
+            
+            return None
+            
+        except Exception as e:
+            logging.exception(f"Error getting current head for department {dept_id}: {e}")
+            return None
+            
+        finally:
+            close_database_connection(conn)
+
+    @classmethod
+    def assign_head(cls, dept_id: int, employee_id: int, start_date) -> bool:
+        conn = get_database_connection()
+        if not conn:
+            return False
+        
+        try:
+            cursor = conn.cursor()
+            
+            from datetime import date, timedelta
+            yesterday = start_date - timedelta(days=1)
+            
+            cursor.execute(
+                "UPDATE department_heads SET end_date = %s WHERE dept_id = %s AND end_date IS NULL",
+                (yesterday, dept_id)
+            )
+            
+            cursor.execute(
+                "INSERT INTO department_heads (dept_id, employee_id, start_date) VALUES (%s, %s, %s)",
+                (dept_id, employee_id, start_date)
+            )
+            
+            conn.commit()
+            logging.info(f"Assigned employee {employee_id} as head of department {dept_id}")
+            
+            return True
+            
+        except Exception as e:
+            conn.rollback()
+            logging.exception(f"Error assigning department head: {e}")
+            return False
+            
+        finally:
+            close_database_connection(conn)
+
+    @classmethod
+    def remove_head(cls, dept_id: int, end_date) -> bool:
+        conn = get_database_connection()
+        if not conn:
+            return False
+        
+        try:
+            cursor = conn.cursor()
+            
+            cursor.execute(
+                "UPDATE department_heads SET end_date = %s WHERE dept_id = %s AND end_date IS NULL",
+                (end_date, dept_id)
+            )
+            
+            conn.commit()
+            logging.info(f"Removed head from department {dept_id}")
+            
+            return True
+            
+        except Exception as e:
+            conn.rollback()
+            logging.exception(f"Error removing department head: {e}")
+            return False
+            
+        finally:
+            close_database_connection(conn)

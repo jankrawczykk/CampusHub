@@ -90,6 +90,22 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="assignHeadButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Assign Head</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="addButton">
        <property name="minimumSize">
         <size>

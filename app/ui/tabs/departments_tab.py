@@ -28,10 +28,9 @@ class DepartmentsTab(QWidget):
         self.addButton.clicked.connect(self._handle_add)
         self.editButton.clicked.connect(self._handle_edit)
         self.deleteButton.clicked.connect(self._handle_delete)
-        
         self.departmentsTable.itemSelectionChanged.connect(self._handle_selection_change)
-        
         self.departmentsTable.doubleClicked.connect(self._handle_edit)
+        self.assignHeadButton.clicked.connect(self._handle_assign_head)
     
     def _setup_table(self):
         header = self.departmentsTable.horizontalHeader()
@@ -102,6 +101,7 @@ class DepartmentsTab(QWidget):
         has_selection = len(self.departmentsTable.selectedItems()) > 0
         self.editButton.setEnabled(has_selection)
         self.deleteButton.setEnabled(has_selection)
+        self.assignHeadButton.setEnabled(has_selection)
     
     def _get_selected_department_id(self):
         selected_rows = self.departmentsTable.selectionModel().selectedRows()
@@ -171,3 +171,20 @@ class DepartmentsTab(QWidget):
             else:
                 logging.error(f"Failed to delete department {dept_id}")
                 QMessageBox.critical(self, "Error", "Failed to delete department. Please check the logs.")
+    
+    def _handle_assign_head(self):
+        from app.ui.dialogs.assign_head_dialog import AssignHeadDialog
+        
+        dept_id = self._get_selected_department_id()
+        
+        if not dept_id:
+            return
+        
+        row = self.departmentsTable.currentRow()
+        dept_name = self.departmentsTable.item(row, 1).text()
+        
+        dialog = AssignHeadDialog(dept_id=dept_id, dept_name=dept_name, parent=self)
+        
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self.load_departments()
+            logging.info(f"Department head updated, table refreshed")
