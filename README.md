@@ -54,7 +54,8 @@ CampusHub is a desktop application for managing student records, courses, and un
 
 ## Project Structure
 
-- **`app/core/`** - Non-Qt utilities (logging, window utilities)
+- **`app/settings.py`** - Centralized configuration for database, logging, branding, and UI file paths.
+- **`app/core/`** - Non-Qt utilities (authentication, database connection, logging, window utilities)
 - **`app/ui/`** - PyQt6 GUI components only
 - **`db-backups/`** - SQL backup files
 - **`logs/`** - Application logs

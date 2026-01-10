@@ -3,7 +3,7 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow, QMessageBox, QWidget, QVBoxLayout, QLabel
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-from app.settings import APP_TITLE
+from app.settings import APP_TITLE, UI_DASHBOARD
 from app.core.theme_utils import get_logo_path
 
 class DashboardWindow(QMainWindow):
@@ -12,7 +12,7 @@ class DashboardWindow(QMainWindow):
         
         self.user_data = user_data
         
-        uic.loadUi("app/ui/layout/dashboard.ui", self)
+        uic.loadUi(UI_DASHBOARD, self)
         
         self.setWindowTitle(f"{APP_TITLE} - Dashboard")
         self._load_logo_icon()
@@ -50,13 +50,16 @@ class DashboardWindow(QMainWindow):
     
     def _setup_tabs(self):
         from app.ui.tabs.students_tab import StudentsTab
+        from app.ui.tabs.departments_tab import DepartmentsTab
         
         self.mainTabMenu.clear()
         
         students_tab = StudentsTab()
         self.mainTabMenu.addTab(students_tab, "Students")
         
-        self.mainTabMenu.addTab(self._create_placeholder("Departments"), "Departments")
+        departments_tab = DepartmentsTab()
+        self.mainTabMenu.addTab(departments_tab, "Departments")
+
         self.mainTabMenu.addTab(self._create_placeholder("Employees"), "Employees")
         self.mainTabMenu.addTab(self._create_placeholder("Courses"), "Courses")
         

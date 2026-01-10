@@ -1,15 +1,15 @@
 import logging
-from pathlib import Path
-
-LOG_DIR = Path("logs")
-LOG_DIR.mkdir(exist_ok=True)
+from app.settings import LOG_DIR, LOG_FILE, LOG_LEVEL, LOG_FORMAT
 
 def setup_logging():
+    LOG_DIR.mkdir(exist_ok=True)
+    
     logging.basicConfig(
-        level=logging.DEBUG,
-        filename=LOG_DIR / "campushub.log",
+        level=getattr(logging, LOG_LEVEL),
+        filename=LOG_FILE,
         filemode="w",
-        format="%(asctime)s %(filename)s [%(levelname)s] %(message)s"
+        format=LOG_FORMAT
     )
 
     logging.info("Application started.")
+

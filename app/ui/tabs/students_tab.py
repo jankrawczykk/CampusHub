@@ -2,6 +2,7 @@ import logging
 from PyQt6 import uic
 from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QMessageBox, QDialog
 from PyQt6.QtCore import Qt
+from app.settings import UI_STUDENTS_TAB
 from app.models.student import Student
 
 
@@ -9,7 +10,7 @@ class StudentsTab(QWidget):
     def __init__(self):
         super().__init__()
         
-        uic.loadUi("app/ui/layout/students_tab.ui", self)
+        uic.loadUi(UI_STUDENTS_TAB, self)
         
         self._connect_signals()
         
@@ -76,7 +77,20 @@ class StudentsTab(QWidget):
         self.studentsTable.setItem(row, 2, QTableWidgetItem(student.get('last_name', '')))
         self.studentsTable.setItem(row, 3, QTableWidgetItem(student.get('email', '')))
         self.studentsTable.setItem(row, 4, QTableWidgetItem(student.get('pesel', '')))
-        self.studentsTable.setItem(row, 5, QTableWidgetItem(student.get('status', '')))
+        
+        status = student.get('status', '')
+        status_item = QTableWidgetItem(status)
+        
+        if status == 'Active':
+            status_item.setForeground(Qt.GlobalColor.darkGreen)
+        elif status == 'Graduated':
+            status_item.setForeground(Qt.GlobalColor.gray)
+        elif status == 'Inactive':
+            status_item.setForeground(Qt.GlobalColor.darkYellow)
+        elif status == 'Suspended':
+            status_item.setForeground(Qt.GlobalColor.red)
+        
+        self.studentsTable.setItem(row, 5, status_item)
         
         major = student.get('major_name', 'No major')
         if student.get('degree_level'):
@@ -149,9 +163,31 @@ class StudentsTab(QWidget):
         if not student_id:
             return
         
-        QMessageBox.information(
+        row = self.studentsTable.currentRow()
+        first_name = self.studentsTable.item(row, 1).text()
+        last_name = self.studentsTable.item(row, 2).text()
+        
+        reply = QMessageBox.question(
             self,
             "Delete Student",
-            f"Delete functionality for student ID {student_id} will be implemented in Day 5!"
+            f"Are you sure you want to delete {first_name} {last_name}?\n\n"
+            f"This will permanently delete:\n"
+            f"- Student record\n"
+            f"- Person record\n"
+            f"- All major assignments\n\n"
+            f"This action cannot be undone!",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
         )
-        logging.info(f"Delete student {student_id} clicked (not yet implemented)")
+        
+        if reply == QMessageBox.StandardButton.Yes:
+            success = Student.delete(student_id)
+            
+            if success:
+                logging.info(f"Deleted student {student_id} ({first_name} {last_name})")
+                QMessageBox.information(self, "Success", f"Student {first_name} {last_name} deleted successfully!")
+                
+                self.load_students()
+            else:
+                logging.error(f"Failed to delete student {student_id}")
+                QMessageBox.critical(self, "Error", "Failed to delete student. Please check the logs.")

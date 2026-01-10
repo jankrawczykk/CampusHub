@@ -4,6 +4,7 @@ from datetime import date
 from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QDate
+from app.settings import UI_STUDENT_DIALOG
 from app.models.student import Student
 from app.models.major import Major
 
@@ -12,7 +13,7 @@ class StudentDialog(QDialog):
     def __init__(self, student_id: int = None, parent=None):
         super().__init__(parent)
         
-        uic.loadUi("app/ui/layout/student_dialog.ui", self)
+        uic.loadUi(UI_STUDENT_DIALOG, self)
         
         self.student_id = student_id
         

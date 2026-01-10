@@ -95,12 +95,12 @@
 **Goal:** Students fully working + Departments basic CRUD
 
 ### Tasks
-- [ ] Implement delete student (with confirmation dialog)
-- [ ] Handle student-major relationship in add/edit dialog
-- [ ] Test complete student workflow (add, edit, delete, search)
-- [ ] Create departments tab UI (reuse student pattern)
-- [ ] Implement departments CRUD (simpler than students)
-- [ ] Test departments workflow
+- [x] Implement delete student (with confirmation dialog)
+- [x] Handle student-major relationship in add/edit dialog
+- [x] Test complete student workflow (add, edit, delete, search)
+- [x] Create departments tab UI (reuse student pattern)
+- [x] Implement departments CRUD (simpler than students)
+- [x] Test departments workflow
 
 **Deliverable:** ✓ Students fully working + Departments basic CRUD
 
@@ -113,11 +113,13 @@
 ### Tasks
 - [ ] Add loading indicators for database operations
 - [ ] Improve error messages (user-friendly)
-- [ ] Consistent styling across all screens
+- [ ] Assigning and unassigng heads of departments
 - [ ] Fix any bugs found during testing
 - [ ] Add input validation feedback (red borders, tooltips)
-- [ ] **IF TIME:** Start employees management (copy student pattern)
-- [ ] **IF TIME:** Add employees tab
+- [ ] Start employees management (copy student pattern)
+- [ ] Implement employees tab
+- [ ] Managing 'users' with the employees tab -> Start of work for CRUD for users, we will finish in Day 7
+- [ ] Major CRUD (could be in the 'Departments' tab -> editing, adding, deleting majors and assigning them to departments. We can do it by showing the assigned majors for each department and control it that way). It was mentioned in the 'Bonus Features' - we have time for it so we will be doing that
 
 **Deliverable:** ✓ Polished, bug-free core features
 
@@ -130,11 +132,10 @@
 ### Tasks
 - [ ] End-to-end testing of all features
 - [ ] Fix any remaining bugs
+- [ ] Finish 'users' CRUD fully
 - [ ] Add finishing touches (icons, colors, spacing)
-- [ ] Ensure consistent fonts and sizes
 - [ ] Test on fresh database with dummy data
 - [ ] Practice demo presentation
-- [ ] Prepare demo script/notes
 - [ ] Test worst-case scenarios (empty fields, invalid data)
 
 **Deliverable:** ✓ Production-ready app for submission
@@ -156,21 +157,24 @@ app/
 │   └── window_utils.py      # Window utilities
 ├── models/
 │   ├── student.py           # ✓ Student database operations
-│   ├── department.py        # Department database operations
+│   ├── department.py        # ✓ Department database operations
 │   └── major.py             # ✓ Major database operations
 ├── ui/
 │   ├── dashboard_window.py  # Dashboard window
 │   ├── login_window.py      # Login window
-│   ├── tabs/                # Tab widgets
-│   │   └── students_tab.py  # ✓ Students table view with search
-│   ├── dialogs/             # Dialog windows
+│   ├── tabs/                # ✓ Tab widgets
+│   │   ├── students_tab.py  # ✓ Students table view with search
+│   │   └── departments_tab.py # ✓ Departments table view
+│   ├── dialogs/             # ✓ Dialog windows
 │   │   ├── student_dialog.py # ✓ Add/edit student dialog
-│   │   └── department_dialog.py # (Planned)
+│   │   └── department_dialog.py # ✓ Add/edit department dialog
 │   └── layout/              # Qt Designer .ui files
 │       ├── dashboard.ui
 │       ├── login.ui
 │       ├── students_tab.ui
-│       └── student_dialog.ui
+│       ├── departments_tab.ui
+│       ├── student_dialog.ui
+│       └── department_dialog.ui
 ```
 
 ---
@@ -190,20 +194,20 @@ app/
 
 - [x] Professional login screen
 - [ ] Clean dashboard with navigation
-- [ ] **Students**: View, search, add, edit, delete (with majors)
-- [ ] **Departments**: Full CRUD
-- [ ] Polished, consistent UI
-- [ ] Error handling and user feedback
+- [x] **Students**: View, search, add, edit, delete (with majors)
+- [x] **Departments**: Full CRUD
+- [x] Polished, consistent UI
+- [x] Error handling and user feedback
+- [ ] Courses management
 - [ ] Ready for demo
 
 ---
 
 ## 🌟 Bonus Features (If Ahead of Schedule)
 
-- [ ] Employees management
-- [ ] Majors managment (adding/removing/ediing majors)
-- [ ] Courses management
-- [ ] Advanced filtering
+- [ ] Majors managment (adding/removing/editing majors)
+- [ ] Advanced user managment for employees
+- [ ] Roles for employees and different access zones/permissions for each role
 - [ ] Export to CSV
 - [ ] Data statistics/reports
 
@@ -231,7 +235,7 @@ Completed the day with full searching abilities of students tab. Implemented log
 Day 4 was great! We now have full students controls (adding, editing, searching) except removing students. It would be good to consider styling the 'Status' column in the 'Students' tab and assign colors to each status entry (active=green, graduated=grey, inactive=yellow, suspended=red). Other than that, work is going perfectly smooth for now!
 
 ### Day 5 Notes:
-
+Added status color coding, implemented student delete and full departments tab. I have modified this roadmap a bit today with new tasks and I am leaning towards a more advanced system than previosly planned because of extra time on my hands. I have migrated some variables to a global `settings.py` for easier changes if needed.
 
 ### Day 6 Notes:
 

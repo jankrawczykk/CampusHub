@@ -1,5 +1,12 @@
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QPalette
+from app.settings import (
+    LOGO_HORIZONTAL_DARK,
+    LOGO_HORIZONTAL_LIGHT,
+    LOGO_ICON_DARK,
+    LOGO_ICON_LIGHT,
+    LOGO_FALLBACK_TEXT
+)
 
 
 def is_dark_mode() -> bool:
@@ -23,13 +30,13 @@ def get_logo_path(logo_type: str = "horizontal") -> str:
     
     if logo_type == "horizontal":
         if is_dark:
-            return "brand/campushub-high-resolution-logo-transparent.png"
+            return LOGO_HORIZONTAL_DARK
         else:
-            return "brand/campushub-high-resolution-logo-grayscale-transparent.png"
+            return LOGO_HORIZONTAL_LIGHT
     elif logo_type == "icon":
         if is_dark:
-            return "brand/campushub-icon-transparent.png"
+            return LOGO_ICON_DARK
         else:
-            return "brand/campushub-icon-grayscale-transparent.png"
+            return LOGO_ICON_LIGHT
     
     return ""

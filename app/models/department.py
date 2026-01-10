@@ -78,3 +78,49 @@ class Department(BaseModel):
             
         finally:
             close_database_connection(conn)
+    
+    @classmethod
+    def search_departments(cls, search_term: str) -> List[Dict[str, Any]]:
+        conn = get_database_connection()
+        if not conn:
+            return []
+        
+        try:
+            cursor = conn.cursor()
+            
+            query = """
+                SELECT 
+                    d.dept_id,
+                    d.name,
+                    d.code,
+                    p.first_name || ' ' || p.last_name AS head_name,
+                    dh.start_date AS head_since
+                FROM departments d
+                LEFT JOIN department_heads dh ON d.dept_id = dh.dept_id AND dh.end_date IS NULL
+                LEFT JOIN employees e ON dh.employee_id = e.employee_id
+                LEFT JOIN persons p ON e.person_id = p.person_id
+                WHERE 
+                    d.name ILIKE %s OR
+                    d.code ILIKE %s
+                ORDER BY d.name
+            """
+            
+            search_pattern = f"%{search_term}%"
+            cursor.execute(query, (search_pattern, search_pattern))
+            
+            columns = [desc[0] for desc in cursor.description]
+            results = cursor.fetchall()
+            
+            records = []
+            for row in results:
+                records.append(dict(zip(columns, row)))
+            
+            logging.debug(f"Found {len(records)} departments matching '{search_term}'")
+            return records
+            
+        except Exception as e:
+            logging.exception(f"Error searching departments: {e}")
+            return []
+            
+        finally:
+            close_database_connection(conn)
