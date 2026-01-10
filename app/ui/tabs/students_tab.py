@@ -1,6 +1,6 @@
 import logging
 from PyQt6 import uic
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QMessageBox
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QMessageBox, QDialog
 from PyQt6.QtCore import Qt
 from app.models.student import Student
 
@@ -121,25 +121,27 @@ class StudentsTab(QWidget):
         return student_id
     
     def _handle_add(self):
-        QMessageBox.information(
-            self,
-            "Add Student",
-            "Add student dialog will be implemented in Day 4!"
-        )
-        logging.info("Add student clicked (not yet implemented)")
-    
+        from app.ui.dialogs.student_dialog import StudentDialog
+
+        dialog = StudentDialog(parent=self)
+
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self.load_students()
+            logging.info("Student added, table refreshed")
+
     def _handle_edit(self):
+        from app.ui.dialogs.student_dialog import StudentDialog
+
         student_id = self._get_selected_student_id()
-        
+
         if not student_id:
             return
-        
-        QMessageBox.information(
-            self,
-            "Edit Student",
-            f"Edit dialog for student ID {student_id} will be implemented in Day 4!"
-        )
-        logging.info(f"Edit student {student_id} clicked (not yet implemented)")
+
+        dialog = StudentDialog(student_id=student_id, parent=self)
+
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self.load_students()
+            logging.info(f"Student {student_id} edited, table refreshed")
     
     def _handle_delete(self):
         student_id = self._get_selected_student_id()

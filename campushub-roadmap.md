@@ -78,13 +78,13 @@
 **Goal:** Can add and edit students
 
 ### Tasks
-- [ ] Create add/edit student dialog UI in Qt Designer
-- [ ] Create `app/ui/dialogs/student_dialog.py`
-- [ ] Implement form validation (required fields, valid PESEL, etc.)
-- [ ] Wire up "Add Student" button
-- [ ] Wire up "Edit Student" button (double-click row or edit button)
-- [ ] Test adding new students
-- [ ] Test editing existing students
+- [x] Create add/edit student dialog UI in Qt Designer
+- [x] Create `app/ui/dialogs/student_dialog.py`
+- [x] Implement form validation (required fields, valid PESEL, etc.)
+- [x] Wire up "Add Student" button
+- [x] Wire up "Edit Student" button (double-click row or edit button)
+- [x] Test adding new students
+- [x] Test editing existing students
 
 **Deliverable:** ✓ Can add and edit students
 
@@ -155,20 +155,22 @@ app/
 │   ├── theme_utils.py       # UI theming utilities
 │   └── window_utils.py      # Window utilities
 ├── models/
-│   ├── student.py           # Student database operations
-│   └── department.py        # Department database operations
+│   ├── student.py           # ✓ Student database operations
+│   ├── department.py        # Department database operations
+│   └── major.py             # ✓ Major database operations
 ├── ui/
 │   ├── dashboard_window.py  # Dashboard window
 │   ├── login_window.py      # Login window
 │   ├── tabs/                # Tab widgets
 │   │   └── students_tab.py  # ✓ Students table view with search
-│   ├── dialogs/             # (Planned for Day 4+, not yet implemented)
-│   │   ├── student_dialog.py
-│   │   └── department_dialog.py
+│   ├── dialogs/             # Dialog windows
+│   │   ├── student_dialog.py # ✓ Add/edit student dialog
+│   │   └── department_dialog.py # (Planned)
 │   └── layout/              # Qt Designer .ui files
 │       ├── dashboard.ui
 │       ├── login.ui
-│       └── students_tab.ui
+│       ├── students_tab.ui
+│       └── student_dialog.ui
 ```
 
 ---
@@ -199,6 +201,7 @@ app/
 ## 🌟 Bonus Features (If Ahead of Schedule)
 
 - [ ] Employees management
+- [ ] Majors managment (adding/removing/ediing majors)
 - [ ] Courses management
 - [ ] Advanced filtering
 - [ ] Export to CSV
@@ -225,7 +228,7 @@ Completed the day with full searching abilities of students tab. Implemented log
 
 
 ### Day 4 Notes:
-
+Day 4 was great! We now have full students controls (adding, editing, searching) except removing students. It would be good to consider styling the 'Status' column in the 'Students' tab and assign colors to each status entry (active=green, graduated=grey, inactive=yellow, suspended=red). Other than that, work is going perfectly smooth for now!
 
 ### Day 5 Notes:
 
