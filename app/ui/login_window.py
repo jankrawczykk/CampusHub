@@ -1,9 +1,11 @@
 import logging
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from app.settings import APP_TITLE
 from app.core.auth import verify_login
+from app.core.theme_utils import get_logo_path
 
 class LoginWindow(QMainWindow):
     def __init__(self):
@@ -13,12 +15,25 @@ class LoginWindow(QMainWindow):
         
         self.setWindowTitle(f"{APP_TITLE} - Login")
         
+        self._load_logo()
+        
         self.loginButton.clicked.connect(self._handle_login)
         self.passwordInput.returnPressed.connect(self._handle_login)
         
         self.user_data = None
         
         logging.debug("LoginWindow initialized")
+    
+    def _load_logo(self):
+        logo_path = get_logo_path("horizontal")
+        pixmap = QPixmap(logo_path)
+        
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaledToWidth(400, Qt.TransformationMode.SmoothTransformation)
+            self.logoLabel.setPixmap(scaled_pixmap)
+        else:
+            logging.warning(f"Failed to load logo from: {logo_path}")
+            self.logoLabel.setText('<html><head/><body><p align="center"><span style="font-size:36pt;">CampusHub</span></p></body></html>')
     
     def _handle_login(self):
         username = self.usernameInput.text().strip()

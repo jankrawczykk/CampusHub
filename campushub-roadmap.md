@@ -61,13 +61,13 @@
 **Goal:** Students display with search
 
 ### Tasks
-- [ ] Create students tab UI in Qt Designer
-- [ ] Create `app/ui/tabs/students_tab.py`
-- [ ] Load students data into QTableWidget
-- [ ] Add search box functionality
-- [ ] Style the table (modern look)
-- [ ] Add refresh button
-- [ ] Test with dummy data
+- [x] Create students tab UI in Qt Designer
+- [x] Create `app/ui/tabs/students_tab.py`
+- [x] Load students data into QTableWidget
+- [x] Add search box functionality
+- [x] Style the table (modern look)
+- [x] Add refresh button
+- [x] Test with dummy data
 
 **Deliverable:** ✓ Students display with search
 
@@ -152,6 +152,7 @@ app/
 │   ├── base_model.py        # Reusable CRUD base class
 │   ├── database_connection.py # Database connection
 │   ├── logging_config.py    # Logging configuration
+│   ├── theme_utils.py       # UI theming utilities
 │   └── window_utils.py      # Window utilities
 ├── models/
 │   ├── student.py           # Student database operations
@@ -159,15 +160,15 @@ app/
 ├── ui/
 │   ├── dashboard_window.py  # Dashboard window
 │   ├── login_window.py      # Login window
-│   ├── dialogs/             # (Planned for Day 4+)
+│   ├── tabs/                # Tab widgets
+│   │   └── students_tab.py  # ✓ Students table view with search
+│   ├── dialogs/             # (Planned for Day 4+, not yet implemented)
 │   │   ├── student_dialog.py
 │   │   └── department_dialog.py
-│   ├── tabs/                # (Planned for Day 3+)
-│   │   ├── students_tab.py
-│   │   └── departments_tab.py
 │   └── layout/              # Qt Designer .ui files
 │       ├── dashboard.ui
-│       └── login.ui
+│       ├── login.ui
+│       └── students_tab.ui
 ```
 
 ---
@@ -185,7 +186,7 @@ app/
 
 ## ✅ Minimum Success Criteria (Must Have by Day 7)
 
-- [ ] Professional login screen
+- [x] Professional login screen
 - [ ] Clean dashboard with navigation
 - [ ] **Students**: View, search, add, edit, delete (with majors)
 - [ ] **Departments**: Full CRUD
@@ -220,6 +221,7 @@ Full working models for students and departments and a base CRUD model. Added a 
 Remember to implement the logos in day 3 in places like the login screen (instead of the "CampusHub" text) and the dashboard (icon on the left-hand side of the welcome message).
 
 ### Day 3 Notes:
+Completed the day with full searching abilities of students tab. Implemented logos in the login screen and the dashboard.
 
 
 ### Day 4 Notes:

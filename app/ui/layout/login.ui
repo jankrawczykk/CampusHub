@@ -61,12 +61,12 @@
        <number>16</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="title">
+       <widget class="QLabel" name="logoLabel">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;CampusHub&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string/>
         </property>
-        <property name="textFormat">
-         <enum>Qt::RichText</enum>
+        <property name="scaledContents">
+         <bool>false</bool>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -84,13 +84,19 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>0</width>
-          <height>16</height>
+          <height>32</height>
          </size>
         </property>
        </spacer>
       </item>
       <item row="2" column="0">
        <widget class="QLineEdit" name="usernameInput">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -101,6 +107,12 @@
       </item>
       <item row="3" column="0">
        <widget class="QLineEdit" name="passwordInput">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>
@@ -130,6 +142,12 @@
       </item>
       <item row="5" column="0" alignment="Qt::AlignHCenter">
        <widget class="QPushButton" name="loginButton">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="text">
          <string>Login</string>
         </property>

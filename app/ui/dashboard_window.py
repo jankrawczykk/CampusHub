@@ -1,8 +1,10 @@
 import logging
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow, QMessageBox, QWidget, QVBoxLayout, QLabel
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from app.settings import APP_TITLE
+from app.core.theme_utils import get_logo_path
 
 class DashboardWindow(QMainWindow):
     def __init__(self, user_data: dict):
@@ -13,14 +15,27 @@ class DashboardWindow(QMainWindow):
         uic.loadUi("app/ui/layout/dashboard.ui", self)
         
         self.setWindowTitle(f"{APP_TITLE} - Dashboard")
-        
+        self._load_logo_icon()
         self._setup_header()
-        
         self._setup_tabs()
         
         self.logoutButton.clicked.connect(self._handle_logout)
         
         logging.info(f"Dashboard opened for user: {user_data['username']}")
+    
+    def _load_logo_icon(self):
+        logo_path = get_logo_path("icon")
+        pixmap = QPixmap(logo_path)
+        
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaled(
+                48, 48,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+            self.logoIcon.setPixmap(scaled_pixmap)
+        else:
+            logging.warning(f"Failed to load logo icon from: {logo_path}")
     
     def _setup_header(self):
         welcome_text = f"Welcome, {self.user_data['first_name']}!"
@@ -34,9 +49,13 @@ class DashboardWindow(QMainWindow):
         )
     
     def _setup_tabs(self):
+        from app.ui.tabs.students_tab import StudentsTab
+        
         self.mainTabMenu.clear()
         
-        self.mainTabMenu.addTab(self._create_placeholder("Students"), "Students")
+        students_tab = StudentsTab()
+        self.mainTabMenu.addTab(students_tab, "Students")
+        
         self.mainTabMenu.addTab(self._create_placeholder("Departments"), "Departments")
         self.mainTabMenu.addTab(self._create_placeholder("Employees"), "Employees")
         self.mainTabMenu.addTab(self._create_placeholder("Courses"), "Courses")
