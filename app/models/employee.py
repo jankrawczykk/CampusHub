@@ -199,7 +199,7 @@ class Employee(BaseModel):
             close_database_connection(conn)
 
     @classmethod
-    def create_with_person(cls, person_data: Dict[str, Any], employee_data: Dict[str, Any], position_id: Optional[int] = None) -> Optional[int]:
+    def create_with_person(cls, person_data: Dict[str, Any], employee_data: Dict[str, Any], position_id: Optional[int] = None, existing_person_id: Optional[int] = None) -> Optional[int]:
         conn = get_database_connection()
         if not conn:
             return None
@@ -207,21 +207,25 @@ class Employee(BaseModel):
         try:
             cursor = conn.cursor()
             
-            person_columns = list(person_data.keys())
-            person_placeholders = ', '.join(['%s'] * len(person_columns))
-            person_columns_str = ', '.join(person_columns)
-            
-            person_query = f"""
-                INSERT INTO persons ({person_columns_str})
-                VALUES ({person_placeholders})
-                RETURNING person_id
-            """
-            
-            person_values = list(person_data.values())
-            cursor.execute(person_query, person_values)
-            person_id = cursor.fetchone()[0]
-            
-            logging.debug(f"Created person with ID: {person_id}")
+            if existing_person_id:
+                person_id = existing_person_id
+                logging.debug(f"Reusing existing person with ID: {person_id}")
+            else:
+                person_columns = list(person_data.keys())
+                person_placeholders = ', '.join(['%s'] * len(person_columns))
+                person_columns_str = ', '.join(person_columns)
+                
+                person_query = f"""
+                    INSERT INTO persons ({person_columns_str})
+                    VALUES ({person_placeholders})
+                    RETURNING person_id
+                """
+                
+                person_values = list(person_data.values())
+                cursor.execute(person_query, person_values)
+                person_id = cursor.fetchone()[0]
+                
+                logging.debug(f"Created person with ID: {person_id}")
             
             employee_data['person_id'] = person_id
             employee_columns = list(employee_data.keys())

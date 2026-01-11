@@ -3,13 +3,14 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from app.models.user import User
 from app.models.employee import Employee
+from app.settings import UI_USER_ACCOUNT_DIALOG
 
 
 class UserAccountDialog(QDialog):
     def __init__(self, employee_id: int, employee_name: str, parent=None):
         super().__init__(parent)
 
-        uic.loadUi("app/ui/layout/user_account_dialog.ui", self)
+        uic.loadUi(UI_USER_ACCOUNT_DIALOG, self)
         
         self.employee_id = employee_id
         self.employee_name = employee_name

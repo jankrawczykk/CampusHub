@@ -2,7 +2,7 @@ import logging
 import re
 from datetime import date
 from PyQt6 import uic
-from PyQt6.QtWidgets import QDialog, QMessageBox
+from PyQt6.QtWidgets import QDialog, QMessageBox, QDialogButtonBox
 from PyQt6.QtCore import QDate
 from app.settings import UI_STUDENT_DIALOG
 from app.models.student import Student
@@ -17,6 +17,9 @@ class StudentDialog(QDialog):
         
         self.student_id = student_id
         
+        self.existing_person_id = None
+        self.existing_person_roles = None
+
         self._load_majors()
         
         self._set_default_dates()
@@ -31,6 +34,7 @@ class StudentDialog(QDialog):
         
         self.buttonBox.accepted.connect(self._handle_save)
         self.buttonBox.rejected.connect(self.reject)
+        self.peselInput.textChanged.connect(self._check_pesel)
         
         logging.debug(f"StudentDialog initialized (student_id: {student_id})")
     
@@ -160,12 +164,14 @@ class StudentDialog(QDialog):
     def _handle_save(self):
         from app.core.loading_utils import show_loading_cursor
         
-        self.errorLabel.setText("")
+        if not self.existing_person_id:
+            self.errorLabel.setText("")
         
         is_valid, error_message = self._validate_form()
         
         if not is_valid:
             self.errorLabel.setText(error_message)
+            self.errorLabel.setStyleSheet("color: #d32f2f; font-weight: bold;")
             return
         
         person_data, student_data, major_id = self._get_form_data()
@@ -185,18 +191,92 @@ class StudentDialog(QDialog):
                     self.accept()
                 else:
                     self.errorLabel.setText("Failed to update student. Please check the logs.")
+                    self.errorLabel.setStyleSheet("color: #d32f2f; font-weight: bold;")
                     logging.error(f"Failed to update student {self.student_id}")
             else:
                 student_id = Student.create_with_person(
                     person_data,
                     student_data,
-                    major_id
+                    major_id,
+                    existing_person_id=self.existing_person_id
                 )
                 
                 if student_id:
                     logging.info(f"Created new student {student_id}")
-                    QMessageBox.information(self, "Success", "Student created successfully!")
+                    if self.existing_person_id:
+                        QMessageBox.information(self, "Success", "Student created successfully using existing person record!")
+                    else:
+                        QMessageBox.information(self, "Success", "Student created successfully!")
                     self.accept()
                 else:
                     self.errorLabel.setText("Failed to create student. Please check the logs.")
+                    self.errorLabel.setStyleSheet("color: #d32f2f; font-weight: bold;")
                     logging.error("Failed to create new student")
+
+    def _check_pesel(self):
+        from app.models.person import Person
+        
+        pesel = self.peselInput.text().strip()
+        
+        if len(pesel) == 11 and pesel.isdigit() and not self.student_id:
+            person = Person.get_by_pesel(pesel)
+            
+            if person:
+                roles = Person.check_roles(person['person_id'])
+                
+                warning = f"⚠️ This PESEL belongs to: {person['first_name']} {person['last_name']}\n"
+                
+                if roles['is_student']:
+                    status = roles['student_info']['status']
+                    warning += f"• Already a student (Status: {status})\n"
+                
+                if roles['is_employee']:
+                    status = roles['employee_info']['status']
+                    warning += f"• Already an employee (Status: {status})\n"
+                
+                if roles['is_student']:
+                    self.errorLabel.setText(warning + "\nCannot create duplicate student record!")
+                    self.buttonBox.button(QDialogButtonBox.StandardButton.Save).setEnabled(False)
+                    self.existing_person_id = None
+                elif roles['is_employee']:
+                    warning += "\nPerson data will be reused. Only update if needed."
+                    self.errorLabel.setText(warning)
+                    self.errorLabel.setStyleSheet("color: #ff9800; font-weight: bold;")  # Orange warning
+                    self.existing_person_id = person['person_id']
+                    self.existing_person_roles = roles
+                    
+                    self._prefill_person_data(person)
+                    
+                    self.buttonBox.button(QDialogButtonBox.StandardButton.Save).setEnabled(True)
+                else:
+                    warning += "\nPerson data will be reused."
+                    self.errorLabel.setText(warning)
+                    self.errorLabel.setStyleSheet("color: #ff9800; font-weight: bold;")
+                    self.existing_person_id = person['person_id']
+                    
+                    self._prefill_person_data(person)
+                    
+                    self.buttonBox.button(QDialogButtonBox.StandardButton.Save).setEnabled(True)
+            else:
+                self.errorLabel.setText("")
+                self.existing_person_id = None
+                self.existing_person_roles = None
+                self.buttonBox.button(QDialogButtonBox.StandardButton.Save).setEnabled(True)
+
+    def _prefill_person_data(self, person: dict):
+        self.firstNameInput.setText(person.get('first_name', ''))
+        self.lastNameInput.setText(person.get('last_name', ''))
+        self.emailInput.setText(person.get('email', ''))
+        self.phoneInput.setText(person.get('phone_number', '') or '')
+        self.addressInput.setText(person.get('address', '') or '')
+        
+        if person.get('date_of_birth'):
+            from PyQt6.QtCore import QDate
+            dob = person['date_of_birth']
+            self.dateOfBirthInput.setDate(QDate(dob.year, dob.month, dob.day))
+        
+        gender = person.get('gender')
+        if gender:
+            index = self.genderInput.findText(gender)
+            if index >= 0:
+                self.genderInput.setCurrentIndex(index)
