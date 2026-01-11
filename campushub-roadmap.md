@@ -216,6 +216,7 @@ app/
 ## 🌟 Bonus Features (If Ahead of Schedule)
 
 - [x] Majors managment (adding/removing/editing majors)
+- [ ] Better managment for 'persons' table (f.e. a student can become an employee in the future, so we have to make sure that is possible without having to manually delete data and so we can reuse the already filled person's data)
 - [ ] Advanced user managment for employees
 - [ ] Roles for employees and different access zones/permissions for each role
 - [ ] Export to CSV
@@ -255,7 +256,20 @@ I encountered a bug regarding table sorting that would cause the table to loose 
 - Expanded `ui/dialogs/` with department/major management dialogs and moved several hardcoded UI paths into `app/settings.py`.
 
 ### Day 7 Notes:
+**Employee Position Update Bug - FIXED:**
+I encountered a critical database issue when updating employees with position assignments. The error was: `duplicate key value violates unique constraint "employee_positions_pkey"`.
 
+**Root Cause:** The `update_with_person()` method in `employee.py` was blindly inserting a new position assignment every time an employee was updated, even if the position hadn't changed. This caused a duplicate key violation when:
+1. User edits an employee but keeps the same position
+2. Code ends the old position (sets `end_date = TODAY`) 
+3. Code tries to insert new position with same `(employee_id, position_id, start_date)` → **Duplicate key error**
+
+**Solution:** Added a position change check in `employee.py` (lines 297-321):
+- Query the current active position before updating
+- **Only** insert a new position assignment if the position ID actually differs from the current one
+- Otherwise, skip the database transaction and log that position is unchanged
+
+**Result:** ✓ Employee updates now work seamlessly whether position changes or not. All syntax validated. 
 
 ---
 

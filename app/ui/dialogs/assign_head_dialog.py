@@ -3,6 +3,7 @@ from datetime import date
 from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QDate
+from app.settings import UI_ASSIGN_HEAD_DIALOG
 from app.models.department import Department
 from app.models.employee import Employee
 
@@ -11,7 +12,7 @@ class AssignHeadDialog(QDialog):
     def __init__(self, dept_id: int, dept_name: str, parent=None):
         super().__init__(parent)
         
-        uic.loadUi("app/ui/layout/assign_head_dialog.ui", self)
+        uic.loadUi(UI_ASSIGN_HEAD_DIALOG, self)
         
         self.dept_id = dept_id
         self.dept_name = dept_name

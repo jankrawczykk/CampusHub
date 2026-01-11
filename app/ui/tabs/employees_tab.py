@@ -1,7 +1,8 @@
 import logging
 from PyQt6 import uic
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView
+from PyQt6.QtWidgets import QWidget, QTableWidgetItem, QHeaderView, QMessageBox, QDialog
 from PyQt6.QtCore import Qt
+from app.settings import UI_EMPLOYEES_TAB
 from app.core.loading_utils import show_loading_cursor
 from app.models.employee import Employee
 
@@ -10,7 +11,7 @@ class EmployeesTab(QWidget):
     def __init__(self):
         super().__init__()
         
-        uic.loadUi("app/ui/layout/employees_tab.ui", self)
+        uic.loadUi(UI_EMPLOYEES_TAB, self)
         
         self._connect_signals()
         
@@ -24,6 +25,11 @@ class EmployeesTab(QWidget):
         self.searchButton.clicked.connect(self._handle_search)
         self.searchInput.returnPressed.connect(self._handle_search)
         self.refreshButton.clicked.connect(self.load_employees)
+        self.addButton.clicked.connect(self._handle_add)
+        self.editButton.clicked.connect(self._handle_edit)
+        self.deleteButton.clicked.connect(self._handle_delete)
+        self.employeesTable.itemSelectionChanged.connect(self._handle_selection_change)
+        self.employeesTable.doubleClicked.connect(self._handle_edit)
     
     def _setup_table(self):
         header = self.employeesTable.horizontalHeader()
@@ -120,3 +126,81 @@ class EmployeesTab(QWidget):
         
         if not results:
             self.statusLabel.setText(f"No employees found matching '{search_term}'")
+
+    def _handle_selection_change(self):
+        has_selection = len(self.employeesTable.selectedItems()) > 0
+        self.editButton.setEnabled(has_selection)
+        self.deleteButton.setEnabled(has_selection)
+
+    def _get_selected_employee_id(self):
+        selected_rows = self.employeesTable.selectionModel().selectedRows()
+        
+        if not selected_rows:
+            return None
+        
+        row = selected_rows[0].row()
+        employee_id = int(self.employeesTable.item(row, 0).text())
+        
+        return employee_id
+
+    def _handle_add(self):
+        from app.ui.dialogs.employee_dialog import EmployeeDialog
+        
+        dialog = EmployeeDialog(parent=self)
+        
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self.load_employees()
+            logging.info("Employee added, table refreshed")
+
+    def _handle_edit(self):
+        from app.ui.dialogs.employee_dialog import EmployeeDialog
+        
+        employee_id = self._get_selected_employee_id()
+        
+        if not employee_id:
+            return
+        
+        dialog = EmployeeDialog(employee_id=employee_id, parent=self)
+        
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self.load_employees()
+            logging.info(f"Employee {employee_id} edited, table refreshed")
+
+    def _handle_delete(self):
+        from app.core.loading_utils import show_loading_cursor
+        
+        employee_id = self._get_selected_employee_id()
+        
+        if not employee_id:
+            return
+        
+        row = self.employeesTable.currentRow()
+        first_name = self.employeesTable.item(row, 1).text()
+        last_name = self.employeesTable.item(row, 2).text()
+        
+        reply = QMessageBox.question(
+            self,
+            "Delete Employee",
+            f"Are you sure you want to delete {first_name} {last_name}?\n\n"
+            f"This will permanently delete:\n"
+            f"- Employee record\n"
+            f"- Person record\n"
+            f"- All position assignments\n"
+            f"- User account (if exists)\n\n"
+            f"This action cannot be undone!",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
+        )
+        
+        if reply == QMessageBox.StandardButton.Yes:
+            with show_loading_cursor():
+                success = Employee.delete(employee_id)
+            
+            if success:
+                logging.info(f"Deleted employee {employee_id} ({first_name} {last_name})")
+                QMessageBox.information(self, "Success", f"Employee {first_name} {last_name} deleted successfully!")
+                
+                self.load_employees()
+            else:
+                logging.error(f"Failed to delete employee {employee_id}")
+                QMessageBox.critical(self, "Error", "Failed to delete employee. Please check the logs.")

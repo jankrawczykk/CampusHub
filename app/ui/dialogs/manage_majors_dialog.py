@@ -2,6 +2,7 @@ import logging
 from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QTableWidgetItem, QHeaderView, QMessageBox
 from PyQt6.QtCore import Qt
+from app.settings import UI_MANAGE_MAJORS_DIALOG
 from app.models.major import Major
 
 
@@ -9,7 +10,7 @@ class ManageMajorsDialog(QDialog):
     def __init__(self, dept_id: int, dept_name: str, parent=None):
         super().__init__(parent)
         
-        uic.loadUi("app/ui/layout/manage_majors_dialog.ui", self)
+        uic.loadUi(UI_MANAGE_MAJORS_DIALOG, self)
         
         self.dept_id = dept_id
         self.dept_name = dept_name

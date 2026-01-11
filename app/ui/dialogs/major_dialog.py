@@ -1,6 +1,7 @@
 import logging
 from PyQt6 import uic
 from PyQt6.QtWidgets import QDialog, QMessageBox
+from app.settings import UI_MAJOR_DIALOG
 from app.models.major import Major
 
 
@@ -8,7 +9,7 @@ class MajorDialog(QDialog):
     def __init__(self, dept_id: int, dept_name: str, major_id: int = None, parent=None):
         super().__init__(parent)
         
-        uic.loadUi("app/ui/layout/major_dialog.ui", self)
+        uic.loadUi(UI_MAJOR_DIALOG, self)
         
         self.dept_id = dept_id
         self.dept_name = dept_name
@@ -79,7 +80,7 @@ class MajorDialog(QDialog):
         with show_loading_cursor():
             if self.major_id:
                 success = Major.update(self.major_id, major_data)
-                
+
                 if success:
                     logging.info(f"Updated major {self.major_id}")
                     QMessageBox.information(self, "Success", "Major updated successfully!")
@@ -89,7 +90,7 @@ class MajorDialog(QDialog):
                     logging.error(f"Failed to update major {self.major_id}")
             else:
                 major_id = Major.create(major_data)
-                
+
                 if major_id:
                     logging.info(f"Created new major {major_id}")
                     QMessageBox.information(self, "Success", "Major created successfully!")
