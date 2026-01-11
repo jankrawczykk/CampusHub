@@ -33,11 +33,13 @@ class Employee(BaseModel):
                     p.date_of_birth,
                     p.gender,
                     p.address,
-                    pos.name AS position_name
+                    pos.name AS position_name,
+                    u.username AS user_account
                 FROM employees e
                 JOIN persons p ON e.person_id = p.person_id
                 LEFT JOIN employee_positions ep ON e.employee_id = ep.employee_id AND ep.end_date IS NULL
                 LEFT JOIN positions pos ON ep.position_id = pos.position_id
+                LEFT JOIN users u ON e.employee_id = u.employee_id
                 ORDER BY p.last_name, p.first_name
             """
             

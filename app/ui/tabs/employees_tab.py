@@ -30,6 +30,7 @@ class EmployeesTab(QWidget):
         self.deleteButton.clicked.connect(self._handle_delete)
         self.employeesTable.itemSelectionChanged.connect(self._handle_selection_change)
         self.employeesTable.doubleClicked.connect(self._handle_edit)
+        self.manageUserButton.clicked.connect(self._handle_manage_user)
     
     def _setup_table(self):
         header = self.employeesTable.horizontalHeader()
@@ -41,6 +42,7 @@ class EmployeesTab(QWidget):
         header.setSectionResizeMode(5, QHeaderView.ResizeMode.Stretch)
         header.setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)
         header.setSectionResizeMode(7, QHeaderView.ResizeMode.ResizeToContents)
+        header.setSectionResizeMode(8, QHeaderView.ResizeMode.ResizeToContents)
         
         self.employeesTable.setColumnHidden(0, True)
     
@@ -105,10 +107,22 @@ class EmployeesTab(QWidget):
         
         self.employeesTable.setItem(row, 6, status_item)
         
+        user_account = employee.get('user_account')
+        if user_account:
+            account_text = f"✓ {user_account}"
+            account_item = QTableWidgetItem(account_text)
+            account_item.setForeground(Qt.GlobalColor.darkGreen)
+        else:
+            account_text = "No account"
+            account_item = QTableWidgetItem(account_text)
+            account_item.setForeground(Qt.GlobalColor.gray)
+        
+        self.employeesTable.setItem(row, 7, account_item)
+        
         employment_date = employee.get('employment_date', '')
         if employment_date:
             employment_date = str(employment_date)
-        self.employeesTable.setItem(row, 7, QTableWidgetItem(employment_date))
+        self.employeesTable.setItem(row, 8, QTableWidgetItem(employment_date))
     
     def _handle_search(self):
         search_term = self.searchInput.text().strip()
@@ -131,6 +145,7 @@ class EmployeesTab(QWidget):
         has_selection = len(self.employeesTable.selectedItems()) > 0
         self.editButton.setEnabled(has_selection)
         self.deleteButton.setEnabled(has_selection)
+        self.manageUserButton.setEnabled(has_selection)
 
     def _get_selected_employee_id(self):
         selected_rows = self.employeesTable.selectionModel().selectedRows()
@@ -204,3 +219,22 @@ class EmployeesTab(QWidget):
             else:
                 logging.error(f"Failed to delete employee {employee_id}")
                 QMessageBox.critical(self, "Error", "Failed to delete employee. Please check the logs.")
+
+    def _handle_manage_user(self):
+        from app.ui.dialogs.user_account_dialog import UserAccountDialog
+        
+        employee_id = self._get_selected_employee_id()
+        
+        if not employee_id:
+            return
+        
+        row = self.employeesTable.currentRow()
+        first_name = self.employeesTable.item(row, 1).text()
+        last_name = self.employeesTable.item(row, 2).text()
+        employee_name = f"{first_name} {last_name}"
+        
+        dialog = UserAccountDialog(employee_id=employee_id, employee_name=employee_name, parent=self)
+        
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self.load_employees()
+            logging.info(f"User account updated, table refreshed")

@@ -90,6 +90,22 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="manageUserButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>140</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Manage User</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="addButton">
        <property name="minimumSize">
         <size>
@@ -157,6 +173,11 @@
      <column>
       <property name="text">
        <string>Status</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>User Account</string>
       </property>
      </column>
      <column>
