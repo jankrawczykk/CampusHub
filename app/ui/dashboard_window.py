@@ -53,6 +53,7 @@ class DashboardWindow(QMainWindow):
         from app.ui.tabs.students_tab import StudentsTab
         from app.ui.tabs.departments_tab import DepartmentsTab
         from app.ui.tabs.employees_tab import EmployeesTab
+        from app.ui.tabs.courses_tab import CoursesTab
         
         self.mainTabMenu.clear()
         
@@ -65,7 +66,8 @@ class DashboardWindow(QMainWindow):
         employees_tab = EmployeesTab()
         self.mainTabMenu.addTab(employees_tab, "Employees")
 
-        self.mainTabMenu.addTab(self._create_placeholder("Courses"), "Courses")
+        courses_tab = CoursesTab()
+        self.mainTabMenu.addTab(courses_tab, "Courses")
         
         logging.debug("Dashboard tabs initialized")
     
